@@ -1,0 +1,16 @@
+@tailwind base;
+
+@layer base {
+  @font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(./fonts/TitilliumWeb-Regular.ttf) format('ttf');
+  }
+}
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+  filter: grayscale(0.5);
+}

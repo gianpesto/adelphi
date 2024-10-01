@@ -1,8 +1,8 @@
 <script setup>
-import Question from './components/Question.vue';
-import { useFetch } from '@vueuse/core'
-const { isFetching, error, data } = useFetch('/data.json').json()
+import QuestionItem from './components/QuestionItem.vue';
 
+import { useApi } from '@/composables/useApi'
+const { isFetching, error, data } = useApi('/data.json').json()
 
 
 </script>
@@ -17,8 +17,10 @@ const { isFetching, error, data } = useFetch('/data.json').json()
     </header>
 
     <main v-if="!isFetching">
-      <Question v-for="question in data?.questions"
-        :key="JSON.stringify(question)" v-bind="question" />
+      <div class="container">
+        <QuestionItem v-for="question in data?.questions"
+          :key="JSON.stringify(question)" v-bind="question" />
+      </div>
     </main>
   </div>
 </template>

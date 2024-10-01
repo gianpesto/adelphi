@@ -1,14 +1,15 @@
 <template>
   <div>
-    <h2>{{ question }}</h2>
-    {{ type }}
+    <h2 class="text-xl">{{ question }}</h2>
+
     <div v-if="type === 'radio'">
       <RadioGroupRoot v-model="selectedOption">
         <RadioGroupItem v-for="option in options" :key="option"
-          :value="option.value">
+          :value="option.value" class="text-xl flex items-center gap-2">
+          <div class="RadioGroupIndex">
+            <RadioGroupIndicator class="RadioGroupIndicator" />
+          </div>
           {{ option.label }}
-          <RadioGroupIndicator
-            class="flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-[11px] after:h-[11px] after:rounded-[50%] after:bg-grass11" />
         </RadioGroupItem>
       </RadioGroupRoot>
     </div>
@@ -133,6 +134,19 @@ const selectedOption = ref(null);
 const selectedOptions = ref([]);
 </script>
 
-<style scoped>
+<style>
+.RadioGroupIndex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #000;
+}
+
 /* Add your styles here */
+.RadioGroupIndicator {
+  background: red;
+}
 </style>
