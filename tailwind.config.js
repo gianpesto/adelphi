@@ -7,7 +7,7 @@ export default {
       center: true
     },
     fontFamily: {
-      sans: ['Titillium Web', 'serif']
+      sans: ['Titillium Web', 'sans-serif']
     },
     extend: {}
   },
