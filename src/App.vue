@@ -1,11 +1,27 @@
 <script setup>
-// import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useDebounceFn } from '@vueuse/core'
 // import QuestionItem from './components/QuestionItem.vue';
 
 // import { useApi } from '@/composables/useApi'
 // const { isFetching, error, data } = useApi('/data.json').json()
-// const { Place } = await google.maps.importLibrary("places");
 
+// const service = new window.google.maps.places.AutocompleteService()
+// console.log(service);
+const loaded = ref(false);
+let AutocompleteSuggestion;
+
+async function initGoogleMaps() {
+  const placesLibrary = await window.google.maps.importLibrary("places");
+
+  AutocompleteSuggestion = placesLibrary.AutocompleteSuggestion;
+
+  loaded.value = true;
+}
+
+initGoogleMaps();
+
+// console.log(Place);
 
 /**
  * TODO: distance googlemaps,
@@ -13,37 +29,55 @@
  * balkendiagramm
  */
 
-// const autocompleteEl = ref(null);
 
-// const request = {
-//   textQuery: 'Tacos in Mountain View',
-//   fields: ['displayName', 'location', 'businessStatus'],
-//   includedType: 'restaurant',
-//   locationBias: { lat: 37.4161493, lng: -122.0812166 },
-//   isOpenNow: true,
-//   language: 'en-US',
-//   maxResultCount: 8,
-//   minRating: 3.2,
-//   region: 'us',
-//   useStrictTypeFiltering: false,
-// };
+const cityInputModel = ref('');
+const searchResults = ref([]);
+const debounceGetPlaces = useDebounceFn(getPlaces, 500);
 
-// const { places } = await Place.searchByText(request);
 
-// console.log(places);
 
-// onMounted(() => {
-//   const autocomplete = new google.maps.places.Autocomplete(
-//     autocompleteEl.value,
-//     {
-//       types: ['(cities)'],
-//     }
-//   );
-//   autocomplete.addListener('place_changed', () => {
-//     const place = autocomplete.getPlace();
-//     console.log(place);
-//   });
-// });
+function onKeyDown() {
+  searchResults.value = [];
+  if (cityInputModel.value.length < 3) return;
+  debounceGetPlaces();
+}
+
+const suggestions = ref([]);
+
+async function getPlaces() {
+
+  const request = {
+    input: cityInputModel.value,
+    includedPrimaryTypes: ['administrative_area_level_1', 'administrative_area_level_2', 'locality', 'postal_code', 'school_district'],
+    region: 'eu',
+    language: "de-DE",
+    origin: { lat: 53.197232751823485, lng: 9.975404573028344 }
+  };
+
+  const autoCompleteSuggestions = await AutocompleteSuggestion.fetchAutocompleteSuggestions(request)
+
+  suggestions.value = autoCompleteSuggestions.suggestions.map(suggestion => {
+    return {
+      text: suggestion.placePrediction.text,
+      placePrediction: suggestion.placePrediction,
+    }
+  });
+
+
+}
+
+// const originLocation = ref(null);
+
+const distanceMeters = ref(null);
+
+async function onSuggestionClick(suggestion) {
+  const place = suggestion.placePrediction.toPlace();
+  await place.fetchFields({ fields: ['displayName', 'location'] });
+  cityInputModel.value = suggestion.text;
+  suggestions.value = [];
+  distanceMeters.value = suggestion.placePrediction.distanceMeters;
+}
+
 </script>
 
 
@@ -60,16 +94,36 @@
       <div class="container">
         <div class="default-grid">
 
-          <h1 class="text-xl">Headline</h1>
-          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et
-            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-            sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-            sea
+          <h1 class="text-6xl col-span-full text-white">Headline</h1>
+          <p class="col-span-full mt-3 drop-shadow-md text-white">Lorem ipsum
+            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+            voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+            dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
+            elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+            justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
-          <input ref="autocompleteEl" type="text" placeholder="Enter a place or city" />
+
+          <div class="col-span-full lg:col-span-6 text-black">
+            <input type="text"
+              class="bg-white bg-opacity-60 px-3 py-2 focus:bg-opacity-100 mt-3 block  w-full"
+              placeholder="Enter a place or city" v-model="cityInputModel"
+              @keydown="onKeyDown" v-if="loaded" />
+
+            <ul class="w-full cursor-pointer">
+              <li v-for="(suggestion, i) in suggestions" :key="i"
+                class="min-h-8 flex items-center bg-white/50 px-3 border-t hover:text-cyan-500"
+                @click="onSuggestionClick(suggestion)">
+                {{ suggestion.text }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-span-full" v-if="distanceMeters">
+            you traveled {{ distanceMeters / 1000 }} km
+          </div>
         </div>
       </div>
     </main>
