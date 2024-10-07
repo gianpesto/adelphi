@@ -10,11 +10,13 @@ import { useDebounceFn } from '@vueuse/core'
 // console.log(service);
 const loaded = ref(false);
 let AutocompleteSuggestion;
+let AutocompleteSessionToken;
 
 async function initGoogleMaps() {
   const placesLibrary = await window.google.maps.importLibrary("places");
 
   AutocompleteSuggestion = placesLibrary.AutocompleteSuggestion;
+  AutocompleteSessionToken = placesLibrary.AutocompleteSessionToken;
 
   loaded.value = true;
 }
@@ -34,7 +36,7 @@ const cityInputModel = ref('');
 const searchResults = ref([]);
 const debounceGetPlaces = useDebounceFn(getPlaces, 500);
 
-
+let sessionToken;
 
 function onKeyDown() {
   searchResults.value = [];
@@ -46,12 +48,18 @@ const suggestions = ref([]);
 
 async function getPlaces() {
 
+  if (!sessionToken) {
+    sessionToken = new AutocompleteSessionToken();
+  }
+
   const request = {
     input: cityInputModel.value,
     includedPrimaryTypes: ['administrative_area_level_1', 'administrative_area_level_2', 'locality', 'postal_code', 'school_district'],
     region: 'eu',
     language: "de-DE",
-    origin: { lat: 53.197232751823485, lng: 9.975404573028344 }
+    origin: { lat: 53.197232751823485, lng: 9.975404573028344 },
+    includedRegionCodes: ['DE'],
+    sessionToken
   };
 
   const autoCompleteSuggestions = await AutocompleteSuggestion.fetchAutocompleteSuggestions(request)
@@ -71,6 +79,7 @@ async function getPlaces() {
 const distanceMeters = ref(null);
 
 async function onSuggestionClick(suggestion) {
+  sessionToken = null;
   const place = suggestion.placePrediction.toPlace();
   await place.fetchFields({ fields: ['displayName', 'location'] });
   cityInputModel.value = suggestion.text;
@@ -107,10 +116,8 @@ async function onSuggestionClick(suggestion) {
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
           <div class="col-span-full lg:col-span-6 text-black">
-            <input type="text"
-              class="bg-white bg-opacity-60 px-3 py-2 focus:bg-opacity-100 mt-3 block  w-full"
-              placeholder="Enter a place or city" v-model="cityInputModel"
-              @keydown="onKeyDown" v-if="loaded" />
+            <input type="text" class="bg-white bg-opacity-60 px-3 py-2 focus:bg-opacity-100 mt-3 block  w-full"
+              placeholder="Enter a place or city" v-model="cityInputModel" @keydown="onKeyDown" v-if="loaded" />
 
             <ul class="w-full cursor-pointer">
               <li v-for="(suggestion, i) in suggestions" :key="i"
