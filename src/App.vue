@@ -29,6 +29,8 @@ initGoogleMaps();
  * TODO: distance googlemaps,
  * .factor
  * balkendiagramm
+ * was wird mit der kohle gemacht
+ * 1) verbrenner 2) elektro 3) Zug
  */
 
 
@@ -103,8 +105,12 @@ async function onSuggestionClick(suggestion) {
       <div class="container">
         <div class="default-grid">
 
-          <h1 class="text-6xl col-span-full text-white">Headline</h1>
-          <p class="col-span-full mt-3 drop-shadow-md text-white">Lorem ipsum
+          <h1
+            class="text-6xl col-span-full text-white md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+            Headline</h1>
+          <p
+            class="col-span-full mt-3 drop-shadow-md text-black md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+            Lorem ipsum
             dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
             voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
@@ -115,9 +121,13 @@ async function onSuggestionClick(suggestion) {
             justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
-          <div class="col-span-full lg:col-span-6 text-black">
-            <input type="text" class="bg-white bg-opacity-60 px-3 py-2 focus:bg-opacity-100 mt-3 block  w-full"
-              placeholder="Enter a place or city" v-model="cityInputModel" @keydown="onKeyDown" v-if="loaded" />
+          <div
+            class="col-span-full lg:col-span-6 text-black  md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+            <h3 class="mt-4 text-2xl">Where did you start your trip?</h3>
+            <input type="text"
+              class="bg-white bg-opacity-60 px-3 py-2 focus:bg-opacity-100 mt-3 block  w-full"
+              placeholder="Enter a place or city" v-model="cityInputModel"
+              @keydown="onKeyDown" v-if="loaded" />
 
             <ul class="w-full cursor-pointer">
               <li v-for="(suggestion, i) in suggestions" :key="i"
