@@ -1,13 +1,8 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core'
-// import QuestionItem from './components/QuestionItem.vue';
+import { useRoutesApi } from '@/composables/useRoutesApi';
 
-// import { useApi } from '@/composables/useApi'
-// const { isFetching, error, data } = useApi('/data.json').json()
-
-// const service = new window.google.maps.places.AutocompleteService()
-// console.log(service);
 const loaded = ref(false);
 let AutocompleteSuggestion;
 let AutocompleteSessionToken;
@@ -40,11 +35,22 @@ const debounceGetPlaces = useDebounceFn(getPlaces, 500);
 
 let sessionToken;
 
-function onKeyDown() {
+const origin = reactive({
+  lat: null,
+  lng: null
+})
+
+
+const distanceMeters = ref(null);
+
+function onKeyUp() {
   searchResults.value = [];
+  distanceMeters.value = null;
+  console.log(cityInputModel.value);
   if (cityInputModel.value.length < 3) return;
   debounceGetPlaces();
 }
+
 
 const suggestions = ref([]);
 
@@ -56,11 +62,10 @@ async function getPlaces() {
 
   const request = {
     input: cityInputModel.value,
-    includedPrimaryTypes: ['administrative_area_level_1', 'administrative_area_level_2', 'locality', 'postal_code', 'school_district'],
+    includedPrimaryTypes: ['locality', 'postal_code', 'neighborhood', 'street_address', 'street_number'],
     region: 'eu',
     language: "de-DE",
-    origin: { lat: 53.197232751823485, lng: 9.975404573028344 },
-    includedRegionCodes: ['DE'],
+    includedRegionCodes: ['DE', 'CH', 'AT', 'FR', 'NL', 'BE', 'LU', 'CZ', 'PL', 'DK', 'PL', 'IT'],
     sessionToken
   };
 
@@ -72,22 +77,49 @@ async function getPlaces() {
       placePrediction: suggestion.placePrediction,
     }
   });
-
-
 }
 
-// const originLocation = ref(null);
 
-const distanceMeters = ref(null);
+
 
 async function onSuggestionClick(suggestion) {
   sessionToken = null;
   const place = suggestion.placePrediction.toPlace();
   await place.fetchFields({ fields: ['displayName', 'location'] });
   cityInputModel.value = suggestion.text;
+
   suggestions.value = [];
-  distanceMeters.value = suggestion.placePrediction.distanceMeters;
+  origin.lat = place.location.lat()
+  origin.lng = place.location.lng()
+  measureDistance();
 }
+
+async function measureDistance() {
+  const { data } = await useRoutesApi('/v2:computeRoutes', {
+    body: JSON.stringify({
+      "origin": {
+        "location": {
+          "latLng": {
+            "latitude": origin.lat,
+            "longitude": origin.lng
+          }
+        }
+      },
+      "destination": {
+        "location": {
+          "latLng": {
+            "latitude": 53.16780615812805,
+            "longitude": 9.931648847593461
+          }
+        }
+      }
+    })
+  }).json();
+
+  distanceMeters.value = data.value?.routes[0]?.distanceMeters;
+
+}
+
 
 </script>
 
@@ -122,12 +154,14 @@ async function onSuggestionClick(suggestion) {
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
           <div
-            class="col-span-full lg:col-span-6 text-black  md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+            class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 text-black">
             <h3 class="mt-4 text-2xl">Where did you start your trip?</h3>
-            <input type="text"
-              class="bg-white bg-opacity-60 px-3 py-2 focus:bg-opacity-100 mt-3 block  w-full"
+
+            <label for="city" class="text-black mt-3">Stadt, Ort oder
+              Adresse</label>
+            <input type="text" class="bg-white px-3 py-2 block w-full"
               placeholder="Enter a place or city" v-model="cityInputModel"
-              @keydown="onKeyDown" v-if="loaded" />
+              @keyup="onKeyUp" v-if="loaded" />
 
             <ul class="w-full cursor-pointer">
               <li v-for="(suggestion, i) in suggestions" :key="i"
@@ -138,8 +172,12 @@ async function onSuggestionClick(suggestion) {
             </ul>
           </div>
 
-          <div class="col-span-full" v-if="distanceMeters">
-            you traveled {{ distanceMeters / 1000 }} km
+          <div
+            class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 mt-10"
+            v-if="distanceMeters">
+            <span class="text-5xl text-gray-800">
+              you traveled {{ distanceMeters / 1000 }} km
+            </span>
           </div>
         </div>
       </div>
