@@ -1,7 +1,8 @@
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref } from 'vue';
 import { useDebounceFn } from '@vueuse/core'
 import { useRoutesApi } from '@/composables/useRoutesApi';
+import { Chart, Grid, Line } from 'vue3-charts'
 
 const loaded = ref(false);
 let AutocompleteSuggestion;
@@ -80,8 +81,6 @@ async function getPlaces() {
 }
 
 
-
-
 async function onSuggestionClick(suggestion) {
   sessionToken = null;
   const place = suggestion.placePrediction.toPlace();
@@ -119,6 +118,41 @@ async function measureDistance() {
   distanceMeters.value = data.value?.routes[0]?.distanceMeters;
 
 }
+
+
+/**
+ * CHART
+ */
+
+const plByMonth = [
+  { name: 'Jan', pl: 1000, avg: 500, inc: 300 },
+  { name: 'Feb', pl: 2000, avg: 900, inc: 400 },
+  { name: 'Apr', pl: 400, avg: 400, inc: 500 },
+  { name: 'Mar', pl: 3100, avg: 1300, inc: 700 },
+  { name: 'May', pl: 200, avg: 100, inc: 200 },
+  { name: 'Jun', pl: 600, avg: 400, inc: 300 },
+  { name: 'Jul', pl: 500, avg: 90, inc: 100 }
+]
+
+const chartData = ref(plByMonth)
+const chartDirection = ref('horizontal')
+const chartMargin = ref({
+  left: 0,
+  top: 20,
+  right: 20,
+  bottom: 0
+})
+
+const chartAxis = ref({
+  primary: {
+    type: 'band'
+  },
+  secondary: {
+    domain: ['dataMin', 'dataMax + 100'],
+    type: 'linear',
+    ticks: 8
+  }
+})
 
 
 </script>
@@ -179,6 +213,38 @@ async function measureDistance() {
               you traveled {{ distanceMeters / 1000 }} km
             </span>
           </div>
+
+          <!-- CHART -->
+
+          <div
+            class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 mt-10">
+            <Chart :data="chartData" :margin="chartMargin"
+              :direction="chartDirection" :axis="chartAxis">
+
+              <template #layers>
+                <Grid strokeDasharray="2,2" />
+                <Bar :dataKeys="['name', 'pl']"
+                  :barStyle="{ fill: '#90e0ef' }" />
+                <Bar :dataKeys="['name', 'avg']"
+                  :barStyle="{ fill: '#0096c7' }" />
+                <Bar :dataKeys="['name', 'inc']"
+                  :barStyle="{ fill: '#48cae4' }" />
+                <Marker :value="1000" label="Avg." color="#e76f51"
+                  strokeWidth="2" strokeDasharray="6 6" />
+              </template>
+
+              <template #widgets>
+                <Tooltip borderColor="#48CAE4" :config="{
+                  pl: { color: '#90e0ef' },
+                  avg: { color: '#0096c7' },
+                  inc: { color: '#48cae4' }
+                }" />
+              </template>
+
+            </Chart>
+          </div>
+
+
         </div>
       </div>
     </main>
