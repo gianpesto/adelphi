@@ -16,8 +16,7 @@
     "@vueuse/core": "^11.1.0",
     "pinia": "^2.1.7",
     "radix-vue": "^1.9.6",
-    "vue": "^3.4.29",
-    "vue3-charts": "^1.1.33"
+    "vue": "^3.4.29"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

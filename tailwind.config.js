@@ -7,7 +7,8 @@ export default {
   content: [],
   theme: {
     container: {
-      center: true
+      center: true,
+      padding: '2rem'
     },
     fontFamily: {
       sans: ['Titillium Web', 'sans-serif']

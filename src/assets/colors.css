@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-natur-default: 148 179 82;
+        --color-natur-light: 207 222 155;
+        --color-natur-dark: 112 144 52;
+        --color-erlebnis-default: 252 191 41;
+        --color-erlebnis-light: 253 225 104;
+        --color-erlebnis-dark: 231 108 40;
+        --color-vital-default: 134 194 212;
+        --color-vital-light: 215 232 243;
+        --color-vital-dark: 50 122 144;
+        --color-stadt-default: 197 110 114;
+        --color-stadt-light: 231 199 188;
+        --color-stadt-dark: 104 9 4;
+        --color-primary-default: 153 84 142;
+        --color-primary-light: 205 169 202;
+        --color-primary-dark: 105 19 99;
+    }
+}
