@@ -9,8 +9,10 @@
     <main class="grow container">
 
       <div class="default-grid bg-white/50 py-8">
-        <div class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
-          <h1 class="text-5xl sm:text-7xl headline text-center text-green font-bold">
+        <div
+          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+          <h1
+            class="text-5xl sm:text-7xl headline text-center text-green font-bold">
             A un Angleso it va semblar</h1>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
@@ -26,21 +28,24 @@
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
 
-          <h3 class="mt-10 text-2xl font-bold text-gray">Where did you start your trip?</h3>
+          <h3 class="mt-10 text-2xl font-bold text-magenta">Where did you start
+            your trip?</h3>
 
-          <label for="city" class="mt-6 block text-gray">Stadt, Ort oder PLZ</label>
+          <label for="city" class="mt-6 block text-gray">Stadt, Ort oder
+            PLZ</label>
 
           <div class="relative">
             <input type="text" id="city"
-              class="bg-light-gray/10 px-3 py-2 block w-full  h-14 text-lg border-b border-light-gray/50 outline-0 outline-none"
-              placeholder="Type here" v-model="cityInputModel" @keyup="onKeyUp" v-if="loaded" />
-            <div class="loader absolute right-3 top-4"></div>
+              class="bg-light-gray/10 pl-3 pr-12 py-2 block w-full h-14 text-lg border-b border-light-gray/50 outline-0 outline-none rounded-t-md focus:border-magenta"
+              placeholder="Type here" v-model="cityInputModel" @keyup="onKeyUp"
+              v-if="loaded" />
+            <div class="loader absolute right-3 top-4" v-if="placesBusy"></div>
           </div>
 
           <ul class="w-full cursor-pointer">
             <li v-for="(suggestion, i) in suggestions" :key="i"
-              class="min-h-8 flex items-center bg-white/50 px-3 border-t hover:text-cyan-500"
-              @click="onSuggestionClick(suggestion)">
+              class="min-h-14 flex items-center bg-white/50 px-3 hover:text-cyan-500 border-light-gray/50 bg-light-gray/5 last:rounded-b-md hover:text-magenta"
+              :class="{ 'border-t': i }" @click="onSuggestionClick(suggestion)">
               {{ suggestion.text }}
             </li>
           </ul>
@@ -65,7 +70,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core'
 import { useRoutesApi } from '@/composables/useRoutesApi';
 import BarChart from '@/components/BarChart.vue';
@@ -85,12 +90,9 @@ async function initGoogleMaps() {
 
 initGoogleMaps();
 
-// console.log(Place);
 
 /**
  * TODO: distance googlemaps,
- * .factor
- * balkendiagramm
  * was wird mit der kohle gemacht
  * 1) verbrenner 2) elektro 3) Zug
  */
@@ -110,15 +112,22 @@ const origin = reactive({
 
 const distanceMeters = ref(null);
 
-function onKeyUp() {
+
+let lockWatcher = false;
+
+watch(cityInputModel, () => {
+  if (lockWatcher) return
   searchResults.value = [];
   distanceMeters.value = null;
-  if (cityInputModel.value.length < 3) return;
-  debounceGetPlaces();
-}
+
+  if (cityInputModel.value?.length > 3) {
+    debounceGetPlaces();
+  }
+})
 
 
 const suggestions = ref([]);
+const placesBusy = ref(false);
 
 async function getPlaces() {
 
@@ -126,27 +135,36 @@ async function getPlaces() {
     sessionToken = new AutocompleteSessionToken();
   }
 
-  const request = {
-    input: cityInputModel.value,
-    includedPrimaryTypes: ['locality', 'postal_code', 'neighborhood', 'street_address', 'street_number'],
-    region: 'eu',
-    language: "de-DE",
-    includedRegionCodes: ['DE', 'CH', 'AT', 'FR', 'NL', 'BE', 'LU', 'CZ', 'PL', 'DK', 'PL', 'IT'],
-    sessionToken
-  };
+  try {
+    placesBusy.value = true;
 
-  const autoCompleteSuggestions = await AutocompleteSuggestion.fetchAutocompleteSuggestions(request)
+    const request = {
+      input: cityInputModel.value,
+      includedPrimaryTypes: ['locality', 'postal_code', 'neighborhood', 'street_address', 'street_number'],
+      region: 'eu',
+      language: "de-DE",
+      includedRegionCodes: ['DE', 'CH', 'AT', 'FR', 'NL', 'BE', 'LU', 'CZ', 'PL', 'DK', 'PL', 'IT'],
+      sessionToken
+    };
 
-  suggestions.value = autoCompleteSuggestions.suggestions.map(suggestion => {
-    return {
-      text: suggestion.placePrediction.text,
-      placePrediction: suggestion.placePrediction,
-    }
-  });
+    const autoCompleteSuggestions = await AutocompleteSuggestion.fetchAutocompleteSuggestions(request)
+
+    suggestions.value = autoCompleteSuggestions.suggestions.map(suggestion => {
+      return {
+        text: suggestion.placePrediction.text,
+        placePrediction: suggestion.placePrediction,
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    placesBusy.value = false;
+  }
 }
 
 
 async function onSuggestionClick(suggestion) {
+  lockWatcher = true;
   sessionToken = null;
   const place = suggestion.placePrediction.toPlace();
   await place.fetchFields({ fields: ['displayName', 'location'] });
@@ -156,6 +174,7 @@ async function onSuggestionClick(suggestion) {
   origin.lat = place.location.lat()
   origin.lng = place.location.lng()
   measureDistance();
+  lockWatcher = false;
 }
 
 async function measureDistance() {
