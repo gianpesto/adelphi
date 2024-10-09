@@ -13,6 +13,27 @@ export default {
     fontFamily: {
       sans: ['Titillium Web', 'sans-serif']
     },
+    colors: {
+      magenta: {
+        DEFAULT: 'rgb(var(--color-magenta))',
+        90: 'rgba(var(--color-magenta) / 0.9)',
+        70: 'rgba(var(--color-magenta) / 0.7)',
+        50: 'rgba(var(--color-magenta) / 0.5)',
+        30: 'rgba(var(--color-magenta) / 0.3)'
+      },
+      green: {
+        DEFAULT: 'rgb(var(--color-green))',
+        90: 'rgba(var(--color-green) / 0.9))',
+        70: 'rgba(var(--color-green) / 0.7))',
+        50: 'rgba(var(--color-green) / 0.5))',
+        30: 'rgba(var(--color-green) / 0.3))'
+      },
+      'dark-gray': 'rgb(var(--color-dark-gray))',
+      gray: 'rgb(var(--color-gray))',
+      'light-gray': 'rgb(var(--color-light-gray))',
+      white: 'rgb(var(--color-white) / <alpha-value>)',
+      black: 'rgb(var(--color-black) / <alpha-value>)'
+    },
     extend: {}
   },
   plugins: [

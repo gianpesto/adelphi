@@ -9,4 +9,12 @@
     src: url(/fonts/TitilliumWeb-Regular.ttf) format('truetype');
   }
 
+  @font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(/fonts/TitilliumWeb-Bold.ttf) format('truetype');
+  }
+
 }
