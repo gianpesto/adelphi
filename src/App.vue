@@ -28,7 +28,7 @@
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
 
-          <h3 class="mt-10 text-2xl font-bold text-magenta">Where did you start
+          <h3 class="mt-10 text-2xl font-bold text-green">Where did you start
             your trip?</h3>
 
           <label for="city" class="mt-6 block text-gray">Stadt, Ort oder
@@ -51,18 +51,22 @@
           </ul>
 
 
-          <div class="mt-10 bg-white/50 p-4" v-if="distanceMeters">
-            <span class="text-5xl text-gray-800">
-              you traveled {{ formatDistance(distanceMeters / 1000) }}
-            </span>
+          <div class="mt-10 bg-white/50 p-4" v-if="distanceKm">
+
+            <div class="text-right">
+              <span class="text-lg block">you traveled</span>
+
+              <span ref="distanceKmEl"
+                class="text-6xl text-gray block font-bold whitespace-nowrap">
+                {{ formatDistance(animatedDistanceKm) }}
+              </span>
+            </div>
 
             <!-- CHART -->
-            <BarChart :distance-meters="distanceMeters" />
+            <BarChart :distance-km="distanceKm" />
           </div>
-
-
+          <div v-else class="mt-10 bg-white/50 p-4 h-[441px]"></div>
         </div>
-
       </div>
     </main>
 
@@ -71,7 +75,7 @@
 
 <script setup>
 import { reactive, ref, watch } from 'vue';
-import { useDebounceFn } from '@vueuse/core'
+import { useDebounceFn, useTransition } from '@vueuse/core'
 import { useRoutesApi } from '@/composables/useRoutesApi';
 import BarChart from '@/components/BarChart.vue';
 
@@ -110,7 +114,7 @@ const origin = reactive({
 })
 
 
-const distanceMeters = ref(null);
+const distanceKm = ref(0);
 
 
 let lockWatcher = false;
@@ -118,9 +122,9 @@ let lockWatcher = false;
 watch(cityInputModel, () => {
   if (lockWatcher) return
   searchResults.value = [];
-  distanceMeters.value = null;
+  distanceKm.value = 0;
 
-  if (cityInputModel.value?.length > 3) {
+  if (cityInputModel.value?.length >= 3) {
     debounceGetPlaces();
   }
 })
@@ -199,12 +203,21 @@ async function measureDistance() {
     })
   }).json();
 
-  distanceMeters.value = data.value?.routes[0]?.distanceMeters;
+  distanceKm.value = Math.round(data.value?.routes[0]?.distanceMeters / 1000);
 
 }
+
+
+const animatedDistanceKm = useTransition(distanceKm, {
+  duration: 1000
+})
+
+
 function formatDistance(value) {
-  return new Intl.NumberFormat('de-DE', { style: 'unit', unit: 'kilometer', unitDisplay: 'narrow', maximumFractionDigits: 2, }).format(value);
+  return new Intl.NumberFormat('de-DE', { style: 'unit', unit: 'kilometer', unitDisplay: 'narrow', maximumFractionDigits: 0, }).format(value);
 }
+
+
 
 </script>
 

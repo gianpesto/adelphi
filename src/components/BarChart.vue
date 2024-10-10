@@ -1,12 +1,18 @@
 <template>
-    <div class="text-black flex justify-between grid grid-cols-4 gap-8 py-8">
-        <div v-for="bar in bars" :key="bar.vehicle" class="flex flex-col items-center">
+    <div class="text-black flex justify-between grid grid-cols-4 gap-2 py-8">
+        <div v-for="bar in bars" :key="bar.vehicle"
+            class="flex flex-col items-center">
 
             <!-- BAR -->
-            <div class="w-full max-w-[120px] h-[200px] flex items-end">
-                <div class="bg-blue-50 w-full flex items-center justify-center "
+            <div
+                class="w-full max-w-[120px] h-[200px] flex flex-col justify-end items-center">
+                <span>{{ bar.formattedTotalEmissions }}</span>
+                <div class="bar w-full flex items-center justify-center relative mt-2"
                     :style="{ height: bar.barHeightPercentage * 100 + '%' }">
-                    <span>{{ bar.formattedTotalEmissions }}&nbsp;CO<sub>2</sub></span>
+                    <span
+                        class="text-white/20 font-bold text-3xl absolute bottom-3 sm:text-5xl">
+                        CO<sub class="font-bold">2</sub>
+                    </span>
                 </div>
             </div>
 
@@ -18,13 +24,12 @@
 
 <script setup>
 const props = defineProps({
-    distanceMeters: {
+    distanceKm: {
         required: true,
         type: Number
     },
 })
 
-const distanceKm = props.distanceMeters / 1000;
 
 const vehicles = {
     electricCar: 'ELECTRIC_CAR',
@@ -58,13 +63,11 @@ const bars = Object.values(vehicles).map(vehicle => {
     return {
         label: labels[vehicle],
         vehicle,
-        formattedTotalEmissions: formatWeight(emissionFactors[vehicle] * distanceKm),
-        compensationCost: formatCurrency(emissionFactors[vehicle] * costPerCO2Ton * distanceKm),
+        formattedTotalEmissions: formatWeight(emissionFactors[vehicle] * props.distanceKm),
+        compensationCost: formatCurrency(emissionFactors[vehicle] * costPerCO2Ton * props.distanceKm),
         barHeightPercentage: (emissionFactors[vehicle] / emissionFactors[vehicles.dieselCar]),
     }
 })
-
-console.log(distanceKm)
 
 function formatCurrency(value) {
     return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
@@ -79,6 +82,17 @@ function formatWeight(totalTons) {
 
 }
 
+// const distanceKmEl = ref(null);
+
+// onMounted(() => {
+
+//     console.log('bars', bars);
+// })
+
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.bar {
+    background: linear-gradient(rgb(199, 199, 199), rgb(146, 146, 146));
+}
+</style>
