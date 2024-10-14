@@ -1,9 +1,13 @@
 <template>
   <div class="grow flex flex-col">
-    <header>
-      <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125"
-        height="125" /> -->
-
+    <header class="container">
+      <div class="default-grid">
+        <div :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-5'
+          , 'md:col-span-4', 'xl:col-span-2', 'xl:col-start-6']">
+          <img alt="Naturpark Lüneburger Heide Logo" class="logo w-full mt-10"
+            src="./assets/logo-18-jahre.png" width="1772" heihgt="945" />
+        </div>
+      </div>
     </header>
 
     <main class="grow container">
@@ -70,6 +74,14 @@
       </div>
     </main>
 
+    <footer class="container">
+      <div class="default-grid bg-white/50 py-8">
+        <div
+          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 bg-magenta-50">
+          Impressum
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
