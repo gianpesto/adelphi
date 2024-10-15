@@ -4,11 +4,31 @@
       <div class="default-grid">
         <div :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-5'
           , 'md:col-span-4', 'xl:col-span-2', 'xl:col-start-6']">
-          <img alt="Naturpark Lüneburger Heide Logo" class="logo w-full mt-10"
-            src="./assets/logo-18-jahre.png" width="1772" heihgt="945" />
+          <a href="https://naturpark-lueneburger-heide.de">
+
+            <img alt="Naturpark Lüneburger Heide Logo" class="logo w-full mt-10"
+              src="./assets/logo-18-jahre.png" width="1772" heihgt="945" />
+          </a>
         </div>
       </div>
     </header>
+
+    <!-- <div id="donate-button-container">
+      <div id="donate-button"></div>
+      <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js"
+        charset="UTF-8"></script>
+      <script>
+      PayPal.Donation.Button({
+      env:'production',
+      hosted_button_id:'9BUSBTQN77MGS',
+      image: {
+      src:'https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif',
+      alt:'Spenden mit dem PayPal-Button',
+      title:'PayPal - The safer, easier way to pay online!',
+      }
+      }).render('#donate-button');
+      </script>
+    </div> -->
 
     <main class="grow container">
 
@@ -70,6 +90,7 @@
             <BarChart :distance-km="distanceKm" />
           </div>
           <div v-else class="mt-10 bg-white/50 p-4 h-[441px]"></div>
+
         </div>
       </div>
     </main>
@@ -77,8 +98,10 @@
     <footer class="container">
       <div class="default-grid bg-white/50 py-8">
         <div
-          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 bg-magenta-50">
-          Impressum
+          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+          <a href="https://naturpark-lueneburger-heide.de/impressum"
+            class="hover:text-green" target="_blank">Impressum</a>
+
         </div>
       </div>
     </footer>
@@ -90,6 +113,7 @@ import { reactive, ref, watch } from 'vue';
 import { useDebounceFn, useTransition } from '@vueuse/core'
 import { useRoutesApi } from '@/composables/useRoutesApi';
 import BarChart from '@/components/BarChart.vue';
+
 
 const loaded = ref(false);
 let AutocompleteSuggestion;

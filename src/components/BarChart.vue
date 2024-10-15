@@ -18,11 +18,16 @@
 
             <div class="mt-3">{{ bar.label }}</div>
             <div>{{ bar.compensationCost }}</div>
+
         </div>
+        <PaypalButton
+            class="col-span-full mt-10 xl:col-span-2 xl:col-start-2" />
     </div>
 </template>
 
 <script setup>
+import PaypalButton from '@/components/PaypalButton.vue';
+
 const props = defineProps({
     distanceKm: {
         required: true,

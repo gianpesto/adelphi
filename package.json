@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@paypal/paypal-js": "^8.1.2",
     "@vueuse/core": "^11.1.0",
     "pinia": "^2.1.7",
     "radix-vue": "^1.9.6",
