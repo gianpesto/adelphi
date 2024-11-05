@@ -2,8 +2,8 @@
   <div class="grow flex flex-col">
     <header class="container">
       <div class="default-grid">
-        <div :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-5'
-          , 'md:col-span-4', 'xl:col-span-2', 'xl:col-start-6']">
+        <div
+          :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-5', 'md:col-span-4', 'xl:col-span-2', 'xl:col-start-6']">
           <a href="https://naturpark-lueneburger-heide.de">
 
             <img alt="Naturpark Lüneburger Heide Logo" class="logo w-full mt-10"
@@ -52,44 +52,62 @@
             takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
 
-          <h3 class="mt-10 text-2xl font-bold text-green">Where did you start
-            your trip?</h3>
+          <hr class="mt-14 text-light-gray/30" />
 
-          <label for="city" class="mt-6 block text-gray">Stadt, Ort oder
-            PLZ</label>
+          <h3 class="mt-14 text-2xl font-bold text-green" ref="headline1El">
+            <span class="font-bold text-4xl">1.</span>
+            Where did you start your trip?
+          </h3>
+
+          <label for="city" class="mt-6 block text-gray">
+            Stadt, Ort oder PLZ
+          </label>
 
           <div class="relative">
             <input type="text" id="city"
               class="bg-light-gray/10 pl-3 pr-12 py-2 block w-full h-14 text-lg border-b border-light-gray/50 outline-0 outline-none rounded-t-md focus:border-magenta"
               placeholder="Type here" v-model="cityInputModel" @keyup="onKeyUp"
-              v-if="loaded" />
+              @focus="onFocus" v-if="loaded" />
             <div class="loader absolute right-3 top-4" v-if="placesBusy"></div>
           </div>
 
-          <ul class="w-full cursor-pointer">
-            <li v-for="(suggestion, i) in suggestions" :key="i"
-              class="min-h-14 flex items-center bg-white/50 px-3 hover:text-cyan-500 border-light-gray/50 bg-light-gray/5 last:rounded-b-md hover:text-magenta"
-              :class="{ 'border-t': i }" @click="onSuggestionClick(suggestion)">
-              {{ suggestion.text }}
-            </li>
-          </ul>
+          <div class="relative w-full">
+            <ul class="w-full cursor-pointer absolute">
+              <template v-if="suggestions.length">
+                <li v-for="(suggestion, i) in suggestions" :key="i"
+                  class="min-h-14 flex items-center px-3 hover:text-cyan-500 border-light-gray/50 bg-light-gray/5 last:rounded-b-md hover:text-magenta"
+                  :class="{ 'border-t': i }"
+                  @click="onSuggestionClick(suggestion)">
+                  {{ suggestion.text }}
+                </li>
+              </template>
+              <template v-else-if="placesSearched && !suggestions.length">
+                <li
+                  class="min-h-14 flex items-center px-3 border-light-gray/50 bg-light-gray/5 last:rounded-b-md">
+                  No results found
+                </li>
+              </template>
+            </ul>
+          </div>
 
+          <hr class="mt-14 text-light-gray/30" />
 
-          <div class="mt-10 bg-white/50 p-4" v-if="distanceKm">
-
-            <div class="text-right">
-              <span class="text-lg block">you traveled</span>
-
-              <span ref="distanceKmEl"
-                class="text-6xl text-gray block font-bold whitespace-nowrap">
-                {{ formatDistance(animatedDistanceKm) }}
-              </span>
-            </div>
+          <section class="mt-14 bg-white/50 p-4"
+            :class="{ 'pointer-events-none opacity-10': !distanceKm }">
 
             <!-- CHART -->
-            <BarChart :distance-km="distanceKm" />
-          </div>
-          <div v-else class="mt-10 bg-white/50 p-4 h-[441px]"></div>
+            <BarChart :distance-km="distanceKm" ref="barChartEl"
+              v-model="vehicleModel" />
+          </section>
+
+          <hr class="mt-14 text-light-gray/30" />
+
+          <section class="mt-14 bg-white/50 p-4">
+            <DonationSection
+              :class="{ 'pointer-events-none opacity-10': !vehicleModel }" />
+          </section>
+
+          <hr class="mt-14 text-light-gray/30" />
 
         </div>
       </div>
@@ -109,11 +127,13 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from 'vue';
-import { useDebounceFn, useTransition } from '@vueuse/core'
+import { nextTick, reactive, ref, watch } from 'vue';
+import { useDebounceFn } from '@vueuse/core'
 import { useRoutesApi } from '@/composables/useRoutesApi';
 import BarChart from '@/components/BarChart.vue';
+import DonationSection from '@/components/DonationSection.vue';
 
+const vehicleModel = ref();
 
 const loaded = ref(false);
 let AutocompleteSuggestion;
@@ -152,12 +172,12 @@ const origin = reactive({
 
 const distanceKm = ref(0);
 
-
 let lockWatcher = false;
 
 watch(cityInputModel, () => {
   if (lockWatcher) return
   searchResults.value = [];
+  placesSearched.value = false;
   distanceKm.value = 0;
 
   if (cityInputModel.value?.length >= 3) {
@@ -168,6 +188,17 @@ watch(cityInputModel, () => {
 
 const suggestions = ref([]);
 const placesBusy = ref(false);
+const placesSearched = ref(false);
+
+let focussedOnce = false;
+const headline1El = ref(null);
+function onFocus() {
+  if (focussedOnce) {
+    return
+  }
+  focussedOnce = true;
+  headline1El.value.scrollIntoView({ behavior: 'smooth' })
+}
 
 async function getPlaces() {
 
@@ -195,12 +226,16 @@ async function getPlaces() {
         placePrediction: suggestion.placePrediction,
       }
     });
+
+    placesSearched.value = true;
   } catch (err) {
     console.error(err);
   } finally {
     placesBusy.value = false;
   }
 }
+
+const barChartEl = ref(null);
 
 
 async function onSuggestionClick(suggestion) {
@@ -211,10 +246,16 @@ async function onSuggestionClick(suggestion) {
   cityInputModel.value = suggestion.text;
 
   suggestions.value = [];
+  placesSearched.value = false;
   origin.lat = place.location.lat()
   origin.lng = place.location.lng()
-  measureDistance();
+  await measureDistance();
   lockWatcher = false;
+
+  await nextTick()
+
+  // scroll to distance
+  barChartEl.value.$el?.scrollIntoView({ behavior: 'smooth' })
 }
 
 async function measureDistance() {
@@ -239,21 +280,9 @@ async function measureDistance() {
     })
   }).json();
 
-  distanceKm.value = Math.round(data.value?.routes[0]?.distanceMeters / 1000);
+  distanceKm.value = Math.round(data.value?.routes[0]?.distanceMeters / 1000) * 2; // round trip
 
 }
-
-
-const animatedDistanceKm = useTransition(distanceKm, {
-  duration: 1000
-})
-
-
-function formatDistance(value) {
-  return new Intl.NumberFormat('de-DE', { style: 'unit', unit: 'kilometer', unitDisplay: 'narrow', maximumFractionDigits: 0, }).format(value);
-}
-
-
 
 </script>
 
