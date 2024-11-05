@@ -2,18 +2,23 @@
     <div>
         <h3 class="text-2xl font-bold text-green">
             <span class="font-bold text-4xl">2.</span>
-            What vehicle did you use?
+            Wähle dein Transportmittel
         </h3>
+        <p class="text-lg text-gray mt-10 drop-shadow-md">Hier siehst du die
+            CO₂-Bilanz für verschiedene Verkehrsmittel. Wähle das Fahrzeug, das
+            du überwiegend genutzt hast um uns zu besuchen zu kommen.
+        </p>
 
         <div class="text-right">
-            <span class="text-lg block">you traveled</span>
+            <span class="text-lg block">Du bist</span>
 
             <span ref="distanceKmEl"
                 class="text-6xl text-gray block font-bold whitespace-nowrap">
                 {{ formatDistance(animatedDistanceKm) }}
             </span>
 
-            <span class="text-lg block">round trip</span>
+            <span class="text-lg block">gefahren.</span>
+            <span class="text-sm">(Hin- und zurücl)</span>
         </div>
 
         <div class="text-black grid grid-cols-4 gap-2 py-8">

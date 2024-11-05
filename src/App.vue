@@ -36,30 +36,28 @@
         <div
           class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
           <h1
-            class="text-5xl sm:text-7xl headline text-center text-green font-bold">
-            A un Angleso it va semblar</h1>
+            class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
+            „Wie groß ist dein CO₂-Fußabdruck?“</h1>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
-            Lorem ipsum
-            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-            voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-            dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-            elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
-            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-            justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-            takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            Berechne deine CO₂-Emissionen für deine Fahrt hierher und erfahre,
+            wie du sie direkt kompensieren kannst. Ein kleiner Schritt für dich,
+            ein großer Schritt für unseren Planeten!</p>
 
 
           <hr class="mt-14 text-light-gray/30" />
 
           <h3 class="mt-14 text-2xl font-bold text-green" ref="headline1El">
             <span class="font-bold text-4xl">1.</span>
-            Where did you start your trip?
+            Wo startete deine Reise?
           </h3>
 
-          <label for="city" class="mt-6 block text-gray">
+          <p class="text-lg text-gray mt-5 drop-shadow-md">Gib deinen
+            Startpunkt
+            ein und wähle ihn aus der Liste aus. So können
+            wir die Entfernung und deinen CO₂-Fußabdruck berechnen.</p>
+
+          <label for="city" class="mt-10 block text-gray">
             Stadt, Ort oder PLZ
           </label>
 
