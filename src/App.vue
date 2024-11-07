@@ -81,13 +81,16 @@
     <footer class="container">
       <div class="default-grid bg-white/50 py-8">
         <div
-          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 flex gap-2">
           <a href="https://naturpark-lueneburger-heide.de/impressum"
             class="hover:text-green" target="_blank">Impressum</a>
-
+          <button @click="$CC.showPreferences()" class="hover:text-green">Cookie
+            Einstellungen</button>
         </div>
       </div>
     </footer>
+
+    <!-- COOKIE CONSENT -->
   </div>
 </template>
 
@@ -99,6 +102,7 @@ import InputSection from '@/components/InputSection.vue';
 
 const vehicleModel = ref();
 const distanceKm = ref(0);
+
 
 /**
  * FOCUS

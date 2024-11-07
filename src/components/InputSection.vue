@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { defineModel, defineEmits, nextTick, reactive, ref, watch } from 'vue';
+import { nextTick, reactive, ref, watch } from 'vue';
 import { useDebounceFn } from '@vueuse/core'
 import { useRoutesApi } from '@/composables/useRoutesApi';
 

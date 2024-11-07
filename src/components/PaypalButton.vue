@@ -27,7 +27,7 @@
 
 <script setup>
 import { loadPayPalSdk } from '@/utils/loadPayPalSdk';
-import { onMounted, defineProps, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps({
   clientId: {

@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { defineProps, toRefs, computed } from 'vue';
+import { toRefs, computed } from 'vue';
 import { useTransition } from '@vueuse/core';
 
 const props = defineProps({
