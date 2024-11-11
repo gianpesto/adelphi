@@ -37,19 +37,30 @@
           class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
           <h1
             class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
-            „Wie groß ist dein CO₂-Fußabdruck?“</h1>
+            Der Klimafonds des Naturpark Lüneburger Heide</h1>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
-            Berechne deine CO₂-Emissionen für deine Fahrt hierher und erfahre,
-            wie du sie direkt kompensieren kannst. Ein kleiner Schritt für dich,
-            ein großer Schritt für unseren Planeten!</p>
+            Sie sind zu Gast im Naturpark Lüneburger Heide? Mit unserem
+            Klimarechner können Sie die Klimaemissionen berechnen, die bei Ihrer
+            An- und Abreise in den Naturpark entstehen. Anschließend laden wir
+            Sie herzlich ein, eine Spende an den Klimafonds zu leisten um damit
+            Emissionseinsparungen durch klimafreundliche Mobilitätsprojekte in
+            der Region zu ermöglichen. </p>
 
+          <p class="text-lg text-gray mt-10 drop-shadow-md">
+            Sie wollen mehr über den Klimafonds und unsere aktuellen Projekte
+            erfahren? Dann klicken Sie hier.
+          </p>
+
+          <p class="text-lg text-gray mt-10 drop-shadow-md">
+            Vielen Dank für Ihr Engagement!
+          </p>
 
           <hr class="mt-14 text-light-gray/30" />
 
           <h3 class="mt-14 text-2xl font-bold text-green" ref="headline1El">
             <span class="font-bold text-4xl">1.</span>
-            Wo startete deine Reise?
+            Wo startete Ihre Reise in den Naturpark?
           </h3>
 
           <InputSection v-model:vehicle="vehicleModel"

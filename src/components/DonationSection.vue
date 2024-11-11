@@ -2,16 +2,20 @@
   <div>
     <h3 class="text-2xl font-bold text-green">
       <span class="font-bold text-4xl">3.</span>
-      Dein Beitrag für die Umwelt
+      Ihr Beitrag für den Klimafonds
     </h3>
     <p class="text-lg text-gray mt-10 drop-shadow-md">Möchtest du deine
-      Emissionen ausgleichen? Mit einer kleinen Spende kannst du
-      Klimaschutzprojekte unterstützen und deinen ökologischen Fußabdruck
-      reduzieren. Dein Beitrag hilft, Umweltprojekte zu fördern, die CO₂ binden
-      und den Planeten schützen.
+      Wir freuen uns über Ihre Spende an den Klimafonds Lüneburger Heide. Wir
+      empfehlen eine Spende in Höhe der berechneten Umweltfolgekosten
+      (voreingestellt). Gerne können Sie aber auch einen individuellen Betrag
+      spenden. Vielen Dank für Ihr Engagement und besuchen Sie uns gerne wieder!
     </p>
 
-    <PaypalButton clientId="YOUR_CLIENT_ID" amount="5" class="mt-5" />
+    <div class="grid grid-cols-3 gap-6 mt-10">
+      <PaypalButton clientId="YOUR_CLIENT_ID" amount="5" />
+      <PaypalButton clientId="YOUR_CLIENT_ID" amount="15" />
+      <PaypalButton clientId="YOUR_CLIENT_ID" amount="25" />
+    </div>
   </div>
 </template>
 

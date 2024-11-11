@@ -1,16 +1,18 @@
 <template>
-    <div>
+    <div class="select-none">
         <h3 class="text-2xl font-bold text-green">
             <span class="font-bold text-4xl">2.</span>
-            Wähle dein Transportmittel
+            Wie sind Sie angereist?
         </h3>
-        <p class="text-lg text-gray mt-10 drop-shadow-md">Hier siehst du die
-            CO₂-Bilanz für verschiedene Verkehrsmittel. Wähle das Fahrzeug, das
-            du überwiegend genutzt hast um uns zu besuchen zu kommen.
+        <p class="text-lg text-gray mt-10 drop-shadow-md">Verschiedene
+            Transportmittel und Kraftstoffe verursachen unterschiedlich hohe
+            Klimaemissionen. Damit einhergehend entstehen Klimafolgekosten. Die
+            unten dargestellten Werte berücksichtigen die Entfernung Ihrer An-
+            und Abreise. Wählen Sie hier Ihr Fortbewegungsmittel aus.
         </p>
 
         <div class="text-right">
-            <span class="text-lg block">Du bist</span>
+            <span class="text-lg block">Sie sind</span>
 
             <span ref="distanceKmEl"
                 class="text-6xl text-gray block font-bold whitespace-nowrap">
@@ -18,12 +20,13 @@
             </span>
 
             <span class="text-lg block">gefahren.</span>
-            <span class="text-sm">(Hin- und zurücl)</span>
+            <span class="text-sm">(Hin- und Rückfahrt“)</span>
         </div>
 
-        <div class="text-black grid grid-cols-4 gap-2 py-8">
+        <div class="text-black grid grid-cols-5 gap-2 py-8">
             <label v-for="bar in bars" :key="bar.vehicle"
-                class="flex flex-col items-center group">
+                class="flex flex-col items-center group"
+                @mousedown="vehicleModel = bar.vehicle">
 
                 <input type="radio" name="vehicle" :value="bar.vehicle"
                     class="peer opacity-0" v-model="vehicleModel" />
@@ -38,7 +41,7 @@
                     <div class="bar w-full flex items-center justify-center relative mt-2 transition-all duration-1000 rounded-t-md"
                         :style="{ height: (bar.barHeightPercentage || 0.05) * 100 + '%' }">
                         <span
-                            class="text-white/20 font-bold text-3xl absolute bottom-3 sm:text-5xl">
+                            class="text-white/20 font-bold text-3xl absolute bottom-3 sm:text-5xl pointer-events-none">
                             CO<sub class="font-bold">2</sub>
                         </span>
                     </div>
@@ -62,11 +65,30 @@
             </label>
 
             <hr class="mt-14 text-light-gray/10 col-span-full" />
-            <p class="col-span-full text-sm text-light-gray">
-                * The compensation cost is calculated based on the CO2 emissions
-                of the respective vehicle type. The compensation cost is based
-                on
-                the current price of 237€ per ton of CO2.
+            <p class="col-span-full text-sm text-light-gray flex gap-0.5">
+                <span>
+                    *
+                </span>
+                <span>
+                    Die oben dargestellten Berechnungen beruhen auf
+                    Informationen
+                    des Umweltbundesamtes. Die Emissionsfaktoren für die
+                    dargestellten Verkehrsmittel stammen aus dem Transport
+                    Emission
+                    Model (<a
+                        href="https://www.umweltbundesamt.de/themen/verkehr/emissionsdaten#verkehrsmittelvergleich_personenverkehr_tabelle"
+                        target="_blank">TREMOD</a>).
+                    Der errechnete Betrag in Euro stellt
+                    die
+                    damit einhergehenden Umweltfolgekosten dar und stammt aus
+                    der
+                    <a href="https://www.umweltbundesamt.de/publikationen/methodenkonvention-umweltkosten"
+                        target="_parent">Methodenkonvention 3.1 zur Ermittlung
+                        von Umweltkosten.</a>
+                    Die Werte für Elektrofahrzeuge beruhen auf Werten zur
+                    Nutzung
+                    des durchschnittlichen Strom-Mix in Deutschland.
+                </span>
             </p>
         </div>
     </div>
@@ -89,6 +111,7 @@ const vehicles = {
     electricCar: 'ELECTRIC_CAR',
     hybridCar: 'HYBRID_CAR',
     gasCar: 'GAS_CAR',
+    train: 'TRAIN',
     bus: 'BUS',
 }
 
@@ -102,13 +125,15 @@ const emissionFactors = {
     [vehicles.gasCar]: 0.000169,
     [vehicles.hybridCar]: 0.000121,
     [vehicles.electricCar]: 0.000079,
+    [vehicles.train]: 0.000058,
     [vehicles.bus]: 0.000068,
 }
 
 const labels = {
     [vehicles.gasCar]: 'Benzin/Diesel',
-    [vehicles.electricCar]: 'Elektro',
+    [vehicles.electricCar]: 'Elektro-Pkw',
     [vehicles.hybridCar]: 'Hybrid',
+    [vehicles.train]: 'Train',
     [vehicles.bus]: 'Bus',
 }
 
