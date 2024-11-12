@@ -73,14 +73,15 @@
 
             <!-- CHART -->
             <BarChart :distance-km="distanceKm" ref="barChartEl"
-              v-model="vehicleModel" />
+              v-model="vehicleModel" v-model:compensation="compensationPrice" />
           </section>
 
           <hr class="mt-14 text-light-gray/30" />
 
           <section class="mt-14 bg-white/50 p-4">
-            <DonationSection
-              :class="{ 'pointer-events-none opacity-10': !vehicleModel }" />
+            <DonationSection ref="donationEl"
+              :class="{ 'pointer-events-none opacity-10': !vehicleModel }"
+              :compensation="compensationPrice" />
           </section>
 
           <hr class="mt-14 text-light-gray/30" />
@@ -106,14 +107,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import BarChart from '@/components/BarChart.vue';
 import DonationSection from '@/components/DonationSection.vue';
 import InputSection from '@/components/InputSection.vue';
+import { watchOnce } from '@vueuse/core';
 
 const vehicleModel = ref();
 const distanceKm = ref(0);
+const compensationPrice = ref(undefined);
 
+const barChartEl = ref(null);
+const donationEl = ref(null);
+
+watch(distanceKm, () => {
+  // scroll to distance
+  barChartEl.value.$el?.scrollIntoView({ behavior: 'smooth' })
+})
+
+watchOnce(vehicleModel, () => {
+  // scroll to donation
+  donationEl.value.$el?.scrollIntoView({ behavior: 'smooth' })
+})
 
 /**
  * FOCUS

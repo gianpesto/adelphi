@@ -23,13 +23,14 @@
             <span class="text-sm">(Hin- und Rückfahrt“)</span>
         </div>
 
-        <div class="text-black grid grid-cols-5 gap-2 py-8">
+        <div class="text-black grid grid-cols-5 gap-2 py-8 relative">
             <label v-for="bar in bars" :key="bar.vehicle"
                 class="flex flex-col items-center group"
                 @mousedown="vehicleModel = bar.vehicle">
 
                 <input type="radio" name="vehicle" :value="bar.vehicle"
-                    class="peer opacity-0" v-model="vehicleModel" />
+                    class="peer opacity-0 absolute bottom-0"
+                    @change.prevent="onChange" />
                 <!-- BAR -->
                 <div
                     class="w-full max-w-[120px] h-[200px] flex flex-col justify-end items-center select-none cursor-pointer">
@@ -39,6 +40,7 @@
                         {{ bar.formattedTotalEmissions }}
                     </span>
                     <div class="bar w-full flex items-center justify-center relative mt-2 transition-all duration-1000 rounded-t-md"
+                        :class="{ 'bar--shadow': vehicleModel === bar.vehicle }"
                         :style="{ height: (bar.barHeightPercentage || 0.05) * 100 + '%' }">
                         <span
                             class="text-white/20 font-bold text-3xl absolute bottom-3 sm:text-5xl pointer-events-none">
@@ -117,6 +119,8 @@ const vehicles = {
 
 const vehicleModel = defineModel();
 
+const compensationPrice = defineModel('compensation')
+
 /**
  * Emission factors in CO2 tons per km,
  * diesel having the biggest factor
@@ -151,6 +155,13 @@ const bars = computed(() => {
     })
 })
 
+function onChange(e) {
+    vehicleModel.value = e.target.value;
+
+    const price = emissionFactors[vehicleModel.value] * costPerCO2Ton * distanceKm.value;
+    compensationPrice.value = Math.round(price * 100) / 100; //toFixed(2) with rounding
+}
+
 function formatCurrency(value) {
     return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(value);
 }
@@ -161,7 +172,6 @@ function formatWeight(totalTons) {
     } else {
         return new Intl.NumberFormat('de-DE', { style: 'unit', unit: 'gram', unitDisplay: 'narrow', maximumFractionDigits: 0 }).format(totalTons * 1e6);
     }
-
 }
 
 const animatedDistanceKm = useTransition(distanceKm, {
@@ -177,5 +187,9 @@ function formatDistance(value) {
 <style scoped>
 .bar {
     background: linear-gradient(rgb(199, 199, 199), rgb(146, 146, 146));
+}
+
+.bar--shadow {
+    box-shadow: 0 0 10px rgba(103, 181, 86, 0.62);
 }
 </style>

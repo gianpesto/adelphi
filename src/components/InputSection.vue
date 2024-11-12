@@ -6,9 +6,11 @@
       verschiedener Fortbewegungsmittel. </p>
 
     <PlaceInput v-model="originModel" @focus-input="emit('focus-input')"
-      @suggestion-selected="onOriginSelected" label="Von" />
+      @suggestion-selected="onOriginSelected"
+      :label="isDestinationMode ? 'Von' : 'Startpunkt Reise'" />
 
-    <PlaceInput v-model="destinationModel" @focus-input="emit('focus-input')"
+    <PlaceInput v-if="isDestinationMode" v-model="destinationModel"
+      @focus-input="emit('focus-input')"
       @suggestion-selected="onDestinationSelected" label="Nach" />
 
 
@@ -22,7 +24,9 @@ import { useRoutesApi } from '@/composables/useRoutesApi';
 
 const emit = defineEmits(['focus-input']);
 
-const barChartEl = ref(null);
+const queryParams = new URLSearchParams(window.location.search);
+const isDestinationMode = queryParams.get('e');
+
 
 const originModel = ref('');
 const destinationModel = ref('');
@@ -43,12 +47,9 @@ async function onOriginSelected(place) {
   origin.lat = place.location.lat()
   origin.lng = place.location.lng()
 
-  if (originModel.value && destinationModel.value) {
+  if (!isDestinationMode || (originModel.value && destinationModel.value)) {
     await measureDistance();
     await nextTick()
-
-    // scroll to distance
-    barChartEl.value.$el?.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
@@ -59,9 +60,6 @@ async function onDestinationSelected(place) {
   if (originModel.value && destinationModel.value) {
     await measureDistance();
     await nextTick()
-
-    // scroll to distance
-    barChartEl.value.$el?.scrollIntoView({ behavior: 'smooth' })
   }
 }
 

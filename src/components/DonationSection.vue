@@ -12,9 +12,9 @@
     </p>
 
     <div class="grid grid-cols-3 gap-6 mt-10">
-      <PaypalButton clientId="YOUR_CLIENT_ID" amount="5" />
-      <PaypalButton clientId="YOUR_CLIENT_ID" amount="15" />
-      <PaypalButton clientId="YOUR_CLIENT_ID" amount="25" />
+      <PaypalButton clientId="YOUR_CLIENT_ID" :amount="5" />
+      <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation" />
+      <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation + 10" />
     </div>
   </div>
 </template>
@@ -22,6 +22,9 @@
 <script setup>
 import PaypalButton from '@/components/PaypalButton.vue';
 
+defineProps({
+  compensation: Number,
+});
 
 </script>
 
