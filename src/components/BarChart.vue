@@ -17,7 +17,8 @@
             <span ref="distanceKmEl"
                 class="text-6xl text-gray block font-bold whitespace-nowrap">
                 {{ formatDistance(animatedDistanceKm) }}<sup
-                    class="text-lg">1</sup>
+                    class="text-lg align-[20px]">1</sup>
+
             </span>
 
             <span class="text-lg block">gefahren.</span>
@@ -38,7 +39,8 @@
                     <span v-show="bar.formattedTotalEmissions"
                         class="origin-bottom transition-all"
                         :class="['group-hover:text-green', 'group-hover:scale-150', { 'text-green scale-150': vehicleModel === bar.vehicle }]">
-                        {{ bar.formattedTotalEmissions }}**
+                        {{ bar.formattedTotalEmissions }}<sup
+                            class="text-[8px] align-[1px]">2</sup>
                     </span>
                     <div class="bar w-full flex items-center justify-center relative mt-2 transition-all duration-1000 rounded-t-md"
                         :class="{ 'bar--shadow': vehicleModel === bar.vehicle }"
@@ -68,17 +70,15 @@
             </label>
 
             <hr class="mt-14 text-light-gray/10 col-span-full" />
+
             <p class="col-span-full text-sm text-light-gray flex gap-0.5">
-                <span>
-                    *
-                </span>
-                <span>
-                    Die Entfernungen wurden auf Basis von Google Maps berechnet.
-                </span>
+                <span>1)</span>
+                <span>Die Entfernungen wurden auf Basis von Google Maps
+                    berechnet. </span>
             </p>
             <p class="col-span-full text-sm text-light-gray flex gap-0.5">
                 <span>
-                    **
+                    2)
                 </span>
                 <span>
                     Die oben dargestellten Berechnungen beruhen auf
