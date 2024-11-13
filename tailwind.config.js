@@ -27,6 +27,7 @@ export default {
         50: 'rgba(var(--color-green) / 0.5))',
         30: 'rgba(var(--color-green) / 0.3))'
       },
+      'dark-green': 'rgb(var(--color-dark-green))',
       'dark-gray': 'rgb(var(--color-dark-gray))',
       gray: 'rgb(var(--color-gray))',
       'light-gray': 'rgb(var(--color-light-gray))',

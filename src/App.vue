@@ -37,7 +37,7 @@
           class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
           <h1
             class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
-            Der Klimafonds des Naturpark Lüneburger Heide</h1>
+            Der HeideFonds+ des Naturpark Lüneburger Heide</h1>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
             Sie sind zu Gast im Naturpark Lüneburger Heide? Mit unserem

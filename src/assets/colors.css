@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --color-magenta: 255 0 103;
-        --color-green: 41 153 38;
-        --color-dark-gray: 35 35 35;
-        --color-gray: 78 75 74;
-        --color-light-gray: 133 111 110;
-        --color-white: 255 255 255;
-        --color-black: 0 0 0;
-    }
+  :root {
+    --color-magenta: 255 0 103;
+    --color-green: 41 153 38;
+    --color-dark-green: 27 99 25;
+    --color-dark-gray: 35 35 35;
+    --color-gray: 78 75 74;
+    --color-light-gray: 133 111 110;
+    --color-white: 255 255 255;
+    --color-black: 0 0 0;
+  }
 }

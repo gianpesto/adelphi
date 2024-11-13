@@ -1,5 +1,5 @@
 <template>
-    <div class="select-none">
+    <div>
         <h3 class="text-2xl font-bold text-green">
             <span class="font-bold text-4xl">2.</span>
             Wie sind Sie angereist?
@@ -16,7 +16,8 @@
 
             <span ref="distanceKmEl"
                 class="text-6xl text-gray block font-bold whitespace-nowrap">
-                {{ formatDistance(animatedDistanceKm) }}
+                {{ formatDistance(animatedDistanceKm) }}<sup
+                    class="text-lg">1</sup>
             </span>
 
             <span class="text-lg block">gefahren.</span>
@@ -37,14 +38,14 @@
                     <span v-show="bar.formattedTotalEmissions"
                         class="origin-bottom transition-all"
                         :class="['group-hover:text-green', 'group-hover:scale-150', { 'text-green scale-150': vehicleModel === bar.vehicle }]">
-                        {{ bar.formattedTotalEmissions }}
+                        {{ bar.formattedTotalEmissions }}**
                     </span>
                     <div class="bar w-full flex items-center justify-center relative mt-2 transition-all duration-1000 rounded-t-md"
                         :class="{ 'bar--shadow': vehicleModel === bar.vehicle }"
                         :style="{ height: (bar.barHeightPercentage || 0.05) * 100 + '%' }">
                         <span
-                            class="text-white/20 font-bold text-3xl absolute bottom-3 sm:text-5xl pointer-events-none">
-                            CO<sub class="font-bold">2</sub>
+                            class="text-white/20 font-bold text-3xl absolute bottom-3 sm:text-4xl pointer-events-none">
+                            COe<sub class="font-bold">2</sub>
                         </span>
                     </div>
                 </div>
@@ -72,6 +73,14 @@
                     *
                 </span>
                 <span>
+                    Die Entfernungen wurden auf Basis von Google Maps berechnet.
+                </span>
+            </p>
+            <p class="col-span-full text-sm text-light-gray flex gap-0.5">
+                <span>
+                    **
+                </span>
+                <span>
                     Die oben dargestellten Berechnungen beruhen auf
                     Informationen
                     des Umweltbundesamtes. Die Emissionsfaktoren für die
@@ -79,13 +88,16 @@
                     Emission
                     Model (<a
                         href="https://www.umweltbundesamt.de/themen/verkehr/emissionsdaten#verkehrsmittelvergleich_personenverkehr_tabelle"
+                        class="text-green underline hover:text-dark-green"
                         target="_blank">TREMOD</a>).
                     Der errechnete Betrag in Euro stellt
                     die
                     damit einhergehenden Umweltfolgekosten dar und stammt aus
                     der
                     <a href="https://www.umweltbundesamt.de/publikationen/methodenkonvention-umweltkosten"
-                        target="_parent">Methodenkonvention 3.1 zur Ermittlung
+                        target="_parent"
+                        class="text-green underline hover:text-dark-green">Methodenkonvention
+                        3.1 zur Ermittlung
                         von Umweltkosten.</a>
                     Die Werte für Elektrofahrzeuge beruhen auf Werten zur
                     Nutzung
@@ -137,7 +149,7 @@ const labels = {
     [vehicles.gasCar]: 'Benzin/Diesel',
     [vehicles.electricCar]: 'Elektro-Pkw',
     [vehicles.hybridCar]: 'Hybrid',
-    [vehicles.train]: 'Train',
+    [vehicles.train]: 'Zug',
     [vehicles.bus]: 'Bus',
 }
 
