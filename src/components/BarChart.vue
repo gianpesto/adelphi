@@ -11,17 +11,21 @@
             und Abreise. Wählen Sie hier Ihr Fortbewegungsmittel aus.
         </p>
 
-        <div class="text-right">
-            <span class="text-lg block">Sie sind</span>
+        <div class="mt-10">
+            <div class="flex items-baseline gap-2 flex-wrap">
+                <span class="text-lg">Sie sind</span>
 
-            <span ref="distanceKmEl"
-                class="text-6xl text-gray block font-bold whitespace-nowrap">
-                {{ formatDistance(animatedDistanceKm) }}<sup
-                    class="text-lg align-[20px]">1</sup>
+                <span ref="distanceKmEl"
+                    class="text-6xl text-gray font-bold whitespace-nowrap">
+                    {{ formatDistance(animatedDistanceKm) }}<sup
+                        class="text-lg align-[20px]">1</sup>
 
-            </span>
+                </span>
 
-            <span class="text-lg block">gefahren.</span>
+                <SelectPersons />
+
+                <span class="text-lg">gefahren.</span>
+            </div>
             <span class="text-sm">(Hin- und Rückfahrt“)</span>
         </div>
 
@@ -95,7 +99,7 @@
                     damit einhergehenden Umweltfolgekosten dar und stammt aus
                     der
                     <a href="https://www.umweltbundesamt.de/publikationen/methodenkonvention-umweltkosten"
-                        target="_parent"
+                        target="_blank"
                         class="text-green underline hover:text-dark-green">Methodenkonvention
                         3.1 zur Ermittlung
                         von Umweltkosten.</a>
@@ -111,6 +115,7 @@
 <script setup>
 import { toRefs, computed } from 'vue';
 import { useTransition } from '@vueuse/core';
+import SelectPersons from '@/components/SelectPersons.vue';
 
 const props = defineProps({
     distanceKm: {

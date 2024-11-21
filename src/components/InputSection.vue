@@ -24,12 +24,14 @@ import { useRoutesApi } from '@/composables/useRoutesApi';
 
 const emit = defineEmits(['focus-input']);
 
-const queryParams = new URLSearchParams(window.location.search);
-const isDestinationMode = queryParams.get('e');
+// const queryParams = new URLSearchParams(window.location.search);
+// const isDestinationMode = queryParams.get('e');
+
+const isDestinationMode = true;
 
 
 const originModel = ref('');
-const destinationModel = ref('');
+const destinationModel = ref('Naturpark Lüneburger Heide');
 
 const origin = reactive({
   lat: null,

@@ -39,7 +39,7 @@ defineProps({
 });
 
 const model = defineModel();
-const inputModel = ref('');
+const inputModel = ref(model.value);
 
 const emit = defineEmits(['focus-input']);
 
