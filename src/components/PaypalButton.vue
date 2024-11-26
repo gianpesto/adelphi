@@ -1,39 +1,37 @@
 <template>
-  <!-- <button ref="paypalBtnEl" class="paypal-btn flex items-center gap-4 "
+  <button ref="paypalBtnEl" class="paypal-btn flex items-center gap-4 "
     aria-label="Spenden button">
     <img src="../assets/paypal-logo-w.svg" alt="paypal-logo im spenden button"
       class="block size-14">
     <span class="text-2xl font-bold">Jetz Spenden</span>
 
-  </button> -->
+  </button>
 
-  <form id="paypal-donate-form" class="w-full block"
+  <!-- <form id="paypal-donate-form" class="w-full block"
     action="https://www.paypal.com/donate" method="post" target="_blank">
     <input type="hidden" name="business" value="g.lorenzon@gmx.de">
     <input type="hidden" name="item_name" value="Spenden">
     <input type="hidden" name="currency_code" value="EUR">
     <input type="hidden" id="paypal-amount" name="amount" :value="12">
-    <!-- Default amount -->
 
-    <button type="submit"
-      class="paypal-btn flex items-center justify-center gap-4 w-full">
-      <img src="../assets/paypal-logo-w.svg" alt="paypal-logo im spenden button"
-        class="block size-14">
-      <span class="text-2xl font-bold">Jetz Spenden</span>
-    </button>
 
-  </form>
+  <button type="submit"
+    class="paypal-btn flex items-center justify-center gap-4 w-full">
+    <img src="../assets/paypal-logo-w.svg" alt="paypal-logo im spenden button"
+      class="block size-14">
+    <span class="text-2xl font-bold">Jetz Spenden</span>
+  </button>
+
+  </form> -->
 </template>
 
 <script setup>
 import { loadPayPalSdk } from '@/utils/loadPayPalSdk';
 import { onMounted, ref } from 'vue';
 
+const paypalClientId = import.meta.env.VITE_APP_PAYPAL_CLIENT_ID;
+
 const props = defineProps({
-  clientId: {
-    type: String,
-    required: true,
-  },
   amount: {
     type: String,
     required: true,
@@ -44,7 +42,7 @@ const paypalBtnEl = ref(null);
 
 async function initPayPalButton() {
   try {
-    const paypal = await loadPayPalSdk(props.clientId);
+    const paypal = await loadPayPalSdk(paypalClientId);
 
     paypal.Buttons({
       createOrder: (data, actions) => {
@@ -71,7 +69,7 @@ async function initPayPalButton() {
 }
 
 onMounted(() => {
-  // initPayPalButton();
+  initPayPalButton();
 })
 </script>
 

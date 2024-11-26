@@ -12,7 +12,7 @@
     </p>
 
     <div class="grid xl:grid-cols-3 gap-6 mt-10">
-      <PaypalButton clientId="YOUR_CLIENT_ID" :amount="5" />
+      <PaypalButton :amount="5" />
       <!-- <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation" />
       <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation + 10" /> -->
     </div>
