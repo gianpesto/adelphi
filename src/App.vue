@@ -6,8 +6,8 @@
           :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-5', 'md:col-span-4', 'xl:col-span-2', 'xl:col-start-6']">
           <a href="https://naturpark-lueneburger-heide.de">
 
-            <img alt="Naturpark Lüneburger Heide Logo" class="logo w-full mt-10"
-              src="./assets/logo-18-jahre.png" width="1772" heihgt="945" />
+            <img alt="Klimafonds+ Logo" class="logo w-full mt-10"
+              src="./assets/logo.png" width="1772" heihgt="945" />
           </a>
         </div>
       </div>
@@ -37,18 +37,18 @@
           class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
           <h1
             class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
-            Der HeideFonds+ des Naturpark Lüneburger Heide</h1>
+            Der Klimarechner für Gäste des Nationalparks</h1>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
             Sie sind zu Gast im Naturpark Lüneburger Heide? Mit unserem
             Klimarechner können Sie die Klimaemissionen berechnen, die bei Ihrer
             An- und Abreise in den Naturpark entstehen. Anschließend laden wir
-            Sie herzlich ein, eine Spende an den Klimafonds zu leisten um damit
+            Sie herzlich ein, eine Spende an den Heidefonds+ zu leisten um damit
             Emissionseinsparungen durch klimafreundliche Mobilitätsprojekte in
             der Region zu ermöglichen. </p>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
-            Sie wollen mehr über den Klimafonds und unsere aktuellen Projekte
+            Sie wollen mehr über den Heidefonds+ und unsere aktuellen Projekte
             erfahren? Dann klicken Sie hier.
           </p>
 

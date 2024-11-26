@@ -26,7 +26,7 @@
 
                 <span class="text-lg">gefahren.</span>
             </div>
-            <span class="text-sm">(Hin- und Rückfahrt“)</span>
+            <span class="text-sm">(Hin- und Rückfahrt)</span>
         </div>
 
         <div class="text-black grid grid-cols-5 gap-2 py-8 relative">
@@ -92,7 +92,7 @@
                     Emission
                     Model (<a
                         href="https://www.umweltbundesamt.de/themen/verkehr/emissionsdaten#verkehrsmittelvergleich_personenverkehr_tabelle"
-                        class="text-green underline hover:text-dark-green"
+                        class="text-green underline hover:text-dark-green px-0"
                         target="_blank">TREMOD</a>).
                     Der errechnete Betrag in Euro stellt
                     die
@@ -100,7 +100,7 @@
                     der
                     <a href="https://www.umweltbundesamt.de/publikationen/methodenkonvention-umweltkosten"
                         target="_blank"
-                        class="text-green underline hover:text-dark-green">Methodenkonvention
+                        class="text-green underline hover:text-dark-green px-0">Methodenkonvention
                         3.1 zur Ermittlung
                         von Umweltkosten.</a>
                     Die Werte für Elektrofahrzeuge beruhen auf Werten zur
