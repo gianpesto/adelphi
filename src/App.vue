@@ -3,11 +3,9 @@
     <header class="container">
       <div class="default-grid">
         <div
-          :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-5', 'md:col-span-4', 'xl:col-span-2', 'xl:col-start-6']">
-          <a href="https://naturpark-lueneburger-heide.de">
-
-            <img alt="Klimafonds+ Logo" class="logo w-full mt-10"
-              src="./assets/logo.png" width="1772" heihgt="945" />
+          :class="['col-span-full', 'sm:col-span-6', 'sm:col-start-4', 'md:col-start-4', 'md:col-span-6', 'xl:col-span-4', 'xl:col-start-5']">
+          <a href="https://naturpark-lueneburger-heide.de" class="w-full block">
+            <img alt="Klimafonds+ Logo" class="logo w-full mt-10" src="./assets/logo.svg" />
           </a>
         </div>
       </div>
@@ -33,10 +31,8 @@
     <main class="grow container">
 
       <div class="default-grid bg-white/50 py-8">
-        <div
-          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
-          <h1
-            class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
+        <div class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6">
+          <h1 class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
             Der Klimarechner für Gäste des Nationalparks</h1>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
@@ -63,24 +59,21 @@
             Wo startete Ihre Reise in den Naturpark?
           </h3>
 
-          <InputSection v-model:vehicle="vehicleModel"
-            v-model:distance="distanceKm" @focus-input="onFocus" />
+          <InputSection v-model:vehicle="vehicleModel" v-model:distance="distanceKm" @focus-input="onFocus" />
 
           <hr class="mt-14 text-light-gray/30" />
 
-          <section class="mt-14 bg-white/50 p-4"
-            :class="{ 'pointer-events-none opacity-10': !distanceKm }">
+          <section class="mt-14 bg-white/50 p-4" :class="{ 'pointer-events-none opacity-10': !distanceKm }">
 
             <!-- CHART -->
-            <BarChart :distance-km="distanceKm" ref="barChartEl"
-              v-model="vehicleModel" v-model:compensation="compensationPrice" />
+            <BarChart :distance-km="distanceKm" ref="barChartEl" v-model="vehicleModel"
+              v-model:compensation="compensationPrice" />
           </section>
 
           <hr class="mt-14 text-light-gray/30" />
 
           <section class="mt-14 bg-white/50 p-4">
-            <DonationSection ref="donationEl"
-              :class="{ 'pointer-events-none opacity-10': !vehicleModel }"
+            <DonationSection ref="donationEl" :class="{ 'pointer-events-none opacity-10': !vehicleModel }"
               :compensation="compensationPrice" />
           </section>
 
@@ -92,10 +85,9 @@
 
     <footer class="container">
       <div class="default-grid bg-white/50 py-8">
-        <div
-          class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 flex gap-2">
-          <a href="https://naturpark-lueneburger-heide.de/impressum"
-            class="hover:text-green" target="_blank">Impressum</a>
+        <div class="col-span-full md:col-start-3 md:col-span-8 lg:col-start-4 lg:col-span-6 flex gap-2">
+          <a href="https://naturpark-lueneburger-heide.de/impressum" class="hover:text-green"
+            target="_blank">Impressum</a>
           <button @click="$CC.showPreferences()" class="hover:text-green">Cookie
             Einstellungen</button>
         </div>
