@@ -39,12 +39,12 @@
             Sie sind zu Gast im Naturpark Lüneburger Heide? Mit unserem
             Klimarechner können Sie die Klimaemissionen berechnen, die bei Ihrer
             An- und Abreise in den Naturpark entstehen. Anschließend laden wir
-            Sie herzlich ein, eine Spende an den Heidefonds+ zu leisten um damit
+            Sie herzlich ein, eine Spende an den Heide Fonds+ zu leisten um damit
             Emissionseinsparungen durch klimafreundliche Mobilitätsprojekte in
             der Region zu ermöglichen. </p>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
-            Sie wollen mehr über den Heidefonds+ und unsere aktuellen Projekte
+            Sie wollen mehr über den Heide Fonds+ und unsere aktuellen Projekte
             erfahren? Dann klicken Sie hier.
           </p>
 
