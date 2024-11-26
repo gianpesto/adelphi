@@ -60,7 +60,7 @@ const config = {
                   `
         },
         preferencesModal: {
-          title: 'Cookie Einstellungen',
+          title: 'Cookie-Einstellungen',
           acceptAllBtn: 'Alle akzeptieren',
           acceptNecessaryBtn: 'Alle ablehnen',
           savePreferencesBtn: 'Einstellungen speichern',
