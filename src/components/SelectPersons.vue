@@ -1,6 +1,8 @@
 <template>
-  <div class="relative hover:text-magenta">
-    <div type="text" class="text-lg flex items-center cursor-pointer ">
+  <div class="relative hover:text-magenta cursor-pointer group">
+    <div type="text"
+      class="text-lg flex items-center border border-black px-3 py-2 rounded group-hover:border-magenta">
+
       {{ selectedOption?.label }}
 
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

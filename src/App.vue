@@ -12,22 +12,6 @@
       </div>
     </header>
 
-    <!-- <div id="donate-button-container">
-      <div id="donate-button"></div>
-      <script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js"
-        charset="UTF-8"></script>
-      <script>
-      PayPal.Donation.Button({
-      env:'production',
-      hosted_button_id:'9BUSBTQN77MGS',
-      image: {
-      src:'https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif',
-      alt:'Spenden mit dem PayPal-Button',
-      title:'PayPal - The safer, easier way to pay online!',
-      }
-      }).render('#donate-button');
-      </script>
-    </div> -->
 
     <main class="grow container">
 

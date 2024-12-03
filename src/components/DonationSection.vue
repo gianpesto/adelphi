@@ -11,8 +11,9 @@
       spenden. Vielen Dank für Ihr Engagement und besuchen Sie uns gerne wieder!
     </p>
 
-    <div class="grid xl:grid-cols-3 gap-6 mt-10">
-      <PaypalButton :amount="5" />
+    <div class="gap-6 mt-10">
+      <PaypalButton :amount="compensation" />
+      <PaypalButton />
       <!-- <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation" />
       <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation + 10" /> -->
     </div>

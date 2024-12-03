@@ -15,8 +15,10 @@
             <div class="flex items-baseline gap-2 flex-wrap">
                 <span class="text-lg">Sie sind</span>
 
-                <span ref="distanceKmEl" class="text-6xl text-gray font-bold whitespace-nowrap">
-                    {{ formatDistance(animatedDistanceKm) }}<sup class="text-lg align-[20px]">1</sup>
+                <span ref="distanceKmEl"
+                    class="text-6xl text-gray font-bold whitespace-nowrap">
+                    {{ formatDistance(animatedDistanceKm) }}<sup
+                        class="text-lg align-[20px]">1</sup>
 
                 </span>
 
@@ -28,17 +30,20 @@
         </div>
 
         <div class="text-black grid grid-cols-5 gap-2 py-8 relative">
-            <label v-for="bar in bars" :key="bar.vehicle" class="flex flex-col items-center group"
-                @mousedown="vehicleModel = bar.vehicle">
+            <label v-for="bar in bars" :key="bar.vehicle"
+                class="flex flex-col items-center group">
 
-                <input type="radio" name="vehicle" :value="bar.vehicle" class="peer opacity-0 absolute bottom-0"
-                    @change.prevent="onChange" />
+                <input type="radio" name="vehicle" :value="bar.vehicle"
+                    class="peer opacity-0 absolute bottom-0"
+                    @change="onChange" />
                 <!-- BAR -->
                 <div
                     class="w-full max-w-[120px] h-[200px] flex flex-col justify-end items-center select-none cursor-pointer">
-                    <span v-show="bar.formattedTotalEmissions" class="origin-bottom transition-all"
+                    <span v-show="bar.formattedTotalEmissions"
+                        class="origin-bottom transition-all"
                         :class="['group-hover:text-green', 'group-hover:scale-150', { 'text-green scale-150': vehicleModel === bar.vehicle }]">
-                        {{ bar.formattedTotalEmissions }}<sup class="text-[8px] align-[1px]">2</sup>
+                        {{ bar.formattedTotalEmissions }}<sup
+                            class="text-[8px] align-[1px]">2</sup>
                     </span>
                     <div class="bar w-full flex items-center justify-center relative mt-2 transition-all duration-1000 rounded-t-md"
                         :class="{ 'bar--shadow': vehicleModel === bar.vehicle }"
@@ -50,17 +55,20 @@
                     </div>
                 </div>
 
-                <div class="mt-3 group-hover:text-green transition-colors peer-checked:text-green min-h-[45px]">
+                <div
+                    class="mt-3 group-hover:text-green transition-colors peer-checked:text-green min-h-[45px]">
                     {{ bar.label }}
                 </div>
-                <div class="group-hover:text-green transition-colors peer-checked:text-green">
+                <div
+                    class="group-hover:text-green transition-colors peer-checked:text-green">
                     {{ bar.compensationCost }}
                 </div>
 
                 <!-- INPUT INDEX -->
                 <div
                     class="size-8 border border-gray rounded-full mt-4 flex items-center justify-center peer-hover:border-green cursor-pointer">
-                    <div class="size-5 rounded-full bg-green" v-show="vehicleModel === bar.vehicle"></div>
+                    <div class="size-5 rounded-full bg-green"
+                        v-show="vehicleModel === bar.vehicle"></div>
                 </div>
             </label>
 
@@ -83,13 +91,15 @@
                     Emission
                     Model (<a
                         href="https://www.umweltbundesamt.de/themen/verkehr/emissionsdaten#verkehrsmittelvergleich_personenverkehr_tabelle"
-                        class="text-green underline hover:text-dark-green px-0" target="_blank">TREMOD</a>).
+                        class="text-green underline hover:text-dark-green px-0"
+                        target="_blank">TREMOD</a>).
                     Der errechnete Betrag in Euro stellt
                     die
                     damit einhergehenden Umweltfolgekosten dar und stammt aus
                     der
                     <a href="https://www.umweltbundesamt.de/publikationen/methodenkonvention-umweltkosten"
-                        target="_blank" class="text-green underline hover:text-dark-green px-0">Methodenkonvention
+                        target="_blank"
+                        class="text-green underline hover:text-dark-green px-0">Methodenkonvention
                         3.1 zur Ermittlung
                         von Umweltkosten.</a>
                     Die Werte für Elektrofahrzeuge beruhen auf Werten zur
@@ -102,7 +112,7 @@
 </template>
 
 <script setup>
-import { toRefs, computed } from 'vue';
+import { toRefs, computed, nextTick } from 'vue';
 import { useTransition } from '@vueuse/core';
 import SelectPersons from '@/components/SelectPersons.vue';
 
@@ -161,8 +171,16 @@ const bars = computed(() => {
     })
 })
 
-function onChange(e) {
+async function onChange(e) {
     vehicleModel.value = e.target.value;
+
+    await nextTick();
+
+    console.log(vehicleModel)
+    console.log(vehicleModel.value)
+    console.log(e.target.value)
+
+
 
     const price = emissionFactors[vehicleModel.value] * costPerCO2Ton * distanceKm.value;
     compensationPrice.value = Math.round(price * 100) / 100; //toFixed(2) with rounding
