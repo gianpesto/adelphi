@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div v-if="amount">
     <form action="https://www.paypal.com/donate" method="post" target="_top">
       <!-- Identify your business so that you can collect the payments. -->
       <input type="hidden" name="business"
@@ -12,7 +12,8 @@
       <!-- Display the payment button. -->
 
       <button name="submit" alt="Donate"
-        class="paypal-btn flex items-center gap-4 " aria-label="Spenden button">
+        class="paypal-btn paypal-btn--green flex items-center gap-4 "
+        aria-label="Spenden button">
         <img src="../assets/paypal-logo-w.svg"
           alt="paypal-logo im spenden button" class="block size-14">
         <span class="text-xl font-bold">
@@ -23,59 +24,40 @@
 
     </form>
   </div>
+  <div v-else id="donate-btn"
+    class="paypal-btn  paypal-btn--magenta flex items-center gap-4 w-fit relative">
+    <img src="../assets/paypal-logo-w.svg" alt="paypal-logo im spenden button"
+      class="block size-14">
+    <span class="text-xl font-bold">Beliebigen Betrag spenden</span>
+  </div>
 </template>
 
 <script setup>
 // import { loadPayPalSdk } from '@/utils/loadPayPalSdk';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 
 // const paypalClientId = import.meta.env.VITE_APP_PAYPAL_CLIENT_ID;
 
-defineProps({
+const props = defineProps({
   amount: {
     type: Number,
     default: 0
   },
 })
 
-const paypalBtnEl = ref(null);
 
 async function initPayPalButton() {
   try {
-    // const paypal = await loadPayPalSdk(paypalClientId);
 
-    /* paypal.Buttons({
-      createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              value: props.amount,
-            },
-          }],
-        });
-      },
-      onApprove: (data, actions) => {
-        return actions.order.capture().then((details) => {
-          alert(`Transaction completed by ${details.payer.name.given_name}`);
-        });
-      },
-      onError: (err) => {
-        console.error('PayPal Button Error:', err);
+    window.PayPal.Donation.Button({
+      env: 'production',
+      hosted_button_id: 'A8WXEDZZHTC9Y',
+      image: {
+        src: 'https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif',
+        alt: 'Spenden mit dem PayPal-Button',
+        title: 'PayPal - The safer, easier way to pay online!',
       }
-    }).render(paypalBtnEl.value); */
-
-    // window.PayPal.Donation.Button({
-    //   env: 'sandbox',
-    //   hosted_button_id: 'YCSC55P47F8A6',
-    //   cmd: {
-    //     amount: 5,
-    //   },
-    //   image: {
-    //     src: 'https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif',
-    //     alt: 'Spenden mit dem PayPal-Button',
-    //     title: 'PayPal - The safer, easier way to pay online!',
-    //   }
-    // }).render('#donate-container');
+    }).render('#donate-btn');
 
   } catch (error) {
     console.error('PayPal SDK Load Error:', error);
@@ -83,7 +65,9 @@ async function initPayPalButton() {
 }
 
 onMounted(() => {
-  initPayPalButton();
+  if (!props.amount) {
+    initPayPalButton();
+  }
 })
 
 function formatCurrency(value) {
@@ -94,7 +78,6 @@ function formatCurrency(value) {
 <style scoped>
 .paypal-btn {
   padding: 10px 20px;
-  background-image: linear-gradient(to right, rgb(41, 153, 38) 0%, rgb(109, 186, 42) 51%, rgb(41, 153, 38) 100%);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -104,7 +87,23 @@ function formatCurrency(value) {
   background-size: 200% auto;
 }
 
+.paypal-btn--green {
+  background-image: linear-gradient(to right, rgb(41, 153, 38) 0%, rgb(109, 186, 42) 51%, rgb(41, 153, 38) 100%);
+}
+
+.paypal-btn--magenta {
+  background-image: linear-gradient(to right, rgb(255, 0, 103) 0%, rgb(246, 90, 152) 51%, rgb(255, 0, 103) 100%);
+}
+
 .paypal-btn:hover {
   background-position: right center;
+}
+
+:deep(#donate-button) {
+  inset: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
 }
 </style>

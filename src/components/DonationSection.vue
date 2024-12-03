@@ -11,7 +11,8 @@
       spenden. Vielen Dank für Ihr Engagement und besuchen Sie uns gerne wieder!
     </p>
 
-    <div class="gap-6 mt-10">
+    <div class="gap-6 mt-10 flex flex-wrap"
+      v-if="typeof compensation !== 'undefined'">
       <PaypalButton :amount="compensation" />
       <PaypalButton />
       <!-- <PaypalButton clientId="YOUR_CLIENT_ID" :amount="compensation" />
