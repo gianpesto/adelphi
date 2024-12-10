@@ -57,7 +57,8 @@
 
                 <div
                     class="mt-3 group-hover:text-green transition-colors peer-checked:text-green min-h-[45px]">
-                    {{ bar.label }}
+                    {{ bar.label }}<sup v-if="/_CAR/.test(bar.vehicle)"
+                        class="text-[8px] align-[1px]">3</sup>
                 </div>
                 <div
                     class="group-hover:text-green transition-colors peer-checked:text-green">
@@ -106,6 +107,12 @@
                     Nutzung
                     des durchschnittlichen Strom-Mixes in Deutschland.
                 </span>
+            </p>
+            <p class="col-span-full text-sm text-light-gray flex gap-0.5">
+                <span>3)</span>
+                <span>Die THG-Emissionen für PKWs werden pauschal für ein das
+                    Fahrzeug berechnet und ändern sich daher nicht mit der
+                    Anzahl der Passagiere.</span>
             </p>
         </div>
     </div>
