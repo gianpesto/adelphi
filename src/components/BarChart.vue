@@ -189,16 +189,14 @@ const bars = computed(() => {
     })
 })
 
+watch(() => bars.value, (newBars) => {
+    console.log(newBars)
+})
+
 async function onChange(e) {
     vehicleModel.value = e.target.value;
 
     await nextTick();
-
-    console.log(vehicleModel)
-    console.log(vehicleModel.value)
-    console.log(e.target.value)
-
-
 
     const price = emissionFactors[vehicleModel.value] * costPerCO2Ton * distanceKm.value;
     compensationPrice.value = Math.round(price * 100) / 100; //toFixed(2) with rounding

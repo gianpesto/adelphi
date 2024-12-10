@@ -5,7 +5,6 @@ import config from './cookieconsent-config'
 export default {
   install: (app) => {
     CookieConsent.run(config)
-    console.log(app)
     app.config.globalProperties.$CC = CookieConsent
   }
 }
