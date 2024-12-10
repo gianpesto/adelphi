@@ -23,8 +23,6 @@
                 </span>
 
                 <SelectPersons v-model="personModel" />
-                {{ personModel }}
-
 
                 <span class="text-lg">gefahren.</span>
             </div>
