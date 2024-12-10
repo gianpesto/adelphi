@@ -22,17 +22,19 @@
             class="text-5xl sm:text-7xl headline text-center text-green font-bold pb-2">
             Der Klimarechner für Gäste des Naturparks</h1>
 
+          <PaypalButton label="Jetzt spenden!" class="mt-6" />
+
           <p class="text-lg text-gray mt-10 drop-shadow-md">
             Sie sind zu Gast im Naturpark Lüneburger Heide? Mit unserem
             Klimarechner können Sie die Klimaemissionen berechnen, die bei Ihrer
             An- und Abreise in den Naturpark entstehen. Anschließend laden wir
-            Sie herzlich ein, eine Spende an den Heide Fonds+ zu leisten um
+            Sie herzlich ein, eine Spende an den HeideFonds+ zu leisten um
             damit
             Emissionseinsparungen durch klimafreundliche Mobilitätsprojekte in
             der Region zu ermöglichen. </p>
 
           <p class="text-lg text-gray mt-10 drop-shadow-md">
-            Sie wollen mehr über den Heide Fonds+ und unsere aktuellen Projekte
+            Sie wollen mehr über den HeideFonds+ und unsere aktuellen Projekte
             erfahren? Dann klicken Sie hier.
           </p>
 
@@ -95,6 +97,7 @@ import { ref, watch } from 'vue';
 import BarChart from '@/components/BarChart.vue';
 import DonationSection from '@/components/DonationSection.vue';
 import InputSection from '@/components/InputSection.vue';
+import PaypalButton from '@/components/PaypalButton.vue';
 import { watchOnce } from '@vueuse/core';
 
 const vehicleModel = ref();

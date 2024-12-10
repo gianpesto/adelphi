@@ -28,7 +28,7 @@
     class="paypal-btn  paypal-btn--magenta flex items-center gap-4 w-fit relative">
     <img src="../assets/paypal-logo-w.svg" alt="paypal-logo im spenden button"
       class="block size-14">
-    <span class="text-xl font-bold">Beliebigen Betrag spenden</span>
+    <span class="text-xl font-bold">{{ label }}</span>
   </div>
 </template>
 
@@ -43,6 +43,10 @@ const props = defineProps({
     type: Number,
     default: 0
   },
+  label: {
+    type: String,
+    default: "Beliebigen Betrag spenden"
+  }
 })
 
 

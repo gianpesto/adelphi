@@ -85,7 +85,7 @@ async function getPlaces() {
 
     const request = {
       input: inputModel.value,
-      includedPrimaryTypes: ['locality', 'postal_code', 'neighborhood', 'street_address', 'street_number'],
+      includedPrimaryTypes: ['locality', 'postal_code', 'street_address', 'street_number', 'point_of_interest'],
       region: 'eu',
       language: "de-DE",
       includedRegionCodes: ['DE', 'CH', 'AT', 'FR', 'NL', 'BE', 'LU', 'CZ', 'PL', 'DK', 'PL', 'IT'],
