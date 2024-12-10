@@ -24,6 +24,7 @@
 
 <script setup>
 import { computed } from 'vue';
+
 const model = defineModel({
   prop: 'model',
   type: Number,

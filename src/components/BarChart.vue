@@ -22,7 +22,9 @@
 
                 </span>
 
-                <SelectPersons />
+                <SelectPersons v-model="personModel" />
+                {{ personModel }}
+
 
                 <span class="text-lg">gefahren.</span>
             </div>
@@ -112,7 +114,7 @@
 </template>
 
 <script setup>
-import { toRefs, computed, nextTick } from 'vue';
+import { watch, ref, toRefs, computed, nextTick } from 'vue';
 import { useTransition } from '@vueuse/core';
 import SelectPersons from '@/components/SelectPersons.vue';
 
@@ -124,6 +126,8 @@ const props = defineProps({
 })
 
 const { distanceKm } = toRefs(props);
+
+const personModel = ref(1);
 
 const vehicles = {
     electricCar: 'ELECTRIC_CAR',
@@ -142,11 +146,11 @@ const compensationPrice = defineModel('compensation')
  * diesel having the biggest factor
  */
 const emissionFactors = {
-    [vehicles.gasCar]: 0.000169,
-    [vehicles.hybridCar]: 0.000121,
-    [vehicles.electricCar]: 0.000079,
-    [vehicles.train]: 0.000058,
-    [vehicles.bus]: 0.000068,
+    [vehicles.gasCar]: 0.0002373,
+    [vehicles.hybridCar]: 0.0001694,
+    [vehicles.electricCar]: 0.0001106,
+    [vehicles.train]: 0.000031,
+    [vehicles.bus]: 0.000058,
 }
 
 const labels = {
@@ -159,14 +163,30 @@ const labels = {
 
 const costPerCO2Ton = 237;
 
+const highestEmissionVehicle = computed(() => {
+    return Object.values(vehicles).reduce((a, b) => {
+        const personFactorA = a === vehicles.bus || a === vehicles.train ? personModel.value : 1;
+        const personFactorB = b === vehicles.bus || b === vehicles.train ? personModel.value : 1;
+        return emissionFactors[a] * personFactorA > emissionFactors[b] * personFactorB ? a : b
+    });
+})
+
+const highestEmissionFactor = computed(() => {
+    const personFactor = highestEmissionVehicle.value === vehicles.bus || highestEmissionVehicle.value === vehicles.train ? personModel.value : 1;
+    return emissionFactors[highestEmissionVehicle.value] * personFactor;
+})
+
+
 const bars = computed(() => {
     return Object.values(vehicles).map(vehicle => {
+        const personFactor = vehicle === vehicles.bus || vehicle === vehicles.train ? personModel.value : 1;
+
         return {
             label: labels[vehicle],
             vehicle,
-            formattedTotalEmissions: distanceKm.value && formatWeight(emissionFactors[vehicle] * distanceKm.value),
-            compensationCost: distanceKm.value && formatCurrency(emissionFactors[vehicle] * costPerCO2Ton * distanceKm.value),
-            barHeightPercentage: distanceKm.value ? (emissionFactors[vehicle] / emissionFactors[vehicles.gasCar]) : 0,
+            formattedTotalEmissions: distanceKm.value && formatWeight(emissionFactors[vehicle] * distanceKm.value * personFactor),
+            compensationCost: distanceKm.value && formatCurrency(emissionFactors[vehicle] * costPerCO2Ton * distanceKm.value * personFactor),
+            barHeightPercentage: distanceKm.value ? (emissionFactors[vehicle] * personFactor / highestEmissionFactor.value) : 0,
         }
     })
 })
