@@ -18,7 +18,8 @@
     "pinia": "^2.1.7",
     "radix-vue": "^1.9.6",
     "vanilla-cookieconsent": "^3.0.1",
-    "vue": "^3.4.29"
+    "vue": "^3.4.29",
+    "vue-gtag": "^2.0.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

@@ -1,6 +1,9 @@
 /**
  * @type {import('vanilla-cookieconsent').CookieConsentConfig}
  */
+
+import { optIn, optOut } from 'vue-gtag'
+
 const config = {
   guiOptions: {
     consentModal: {
@@ -12,16 +15,22 @@ const config = {
     }
   },
 
-  onFirstConsent: () => {
-    console.log('onFirstAction fired')
+  // onFirstConsent: ({ cookie }) => {
+
+  // },
+
+  onConsent: ({ cookie }) => {
+    if (cookie.categories.includes('analytics')) {
+      optIn()
+    }
   },
 
-  onConsent: () => {
-    console.log('onConsent fired ...')
-  },
-
-  onChange: () => {
-    console.log('onChange fired ...')
+  onChange: ({ cookie }) => {
+    if (cookie.categories.includes('analytics')) {
+      optIn()
+    } else {
+      optOut()
+    }
   },
 
   categories: {
@@ -37,8 +46,7 @@ const config = {
           }
         ]
       }
-    },
-    ads: {}
+    }
   },
 
   language: {
