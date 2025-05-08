@@ -34,7 +34,7 @@
 
           <p class="text-lg text-gray mt-10 ">
             Sie wollen mehr über den HeideFonds<sup>+</sup> und unsere aktuellen
-            Projekte erfahren? <a href="https://www.heidefondsplus.de/" target="_blank" class="text-green underline hover:text-dark-green px-0">Dann klicken Sie hier.</a>
+            Projekte erfahren? <a href="http://www.heidefondsplus.de/" target="_blank" class="text-green underline hover:text-dark-green px-0">Dann klicken Sie hier.</a>
           </p>
 
           <p class="text-lg text-gray mt-10 ">
